@@ -1,244 +1,128 @@
-Phase 2 — Flutter Fundamentals
+# BuildContext
 
-6. BuildContext
+`BuildContext` is a handle to a widget's location in the widget tree. Flutter uses it to find data and services supplied by widgets above that location, such as a theme, navigator, or scaffold messenger.
 
-This one is a little more abstract than Scaffold or Text, but the core idea is actually simple.
+## Learning Goals
 
-> BuildContext tells Flutter where a widget is located in the widget tree.
+- Explain what `BuildContext` represents.
+- Use context to read inherited values such as a theme.
+- Avoid common context-scope mistakes.
 
+## Where You See It
 
+Every widget's `build` method receives a context.
 
-That's the sentence I want you to remember.
-
-
----
-
-1. Remember the widget tree
-
-We already had:
-
-MaterialApp
-   ↓
-Scaffold
-   ↓
-Column
-   ├── Text
-   └── Button
-
-Every widget has a position in that tree.
-
-BuildContext is essentially a reference to where that widget exists in the tree.
-
-
----
-
-2. Where do you see it?
-
-You've already seen this without discussing it:
-
+```dart
 @override
 Widget build(BuildContext context) {
-  return Text('Hello');
+  return const Text('Hello');
 }
+```
 
-This:
+The widget describes **what** should be displayed. The context describes **where** that widget is located in the tree.
 
-BuildContext context
+```text
+MaterialApp
+`- Scaffold
+   `- ProfileScreen
+      `- Text
+         ^
+         context identifies this location
+```
 
-is the BuildContext.
+## Read Values From Above
 
-Flutter gives your build() method a context representing that widget's location.
+Many Flutter APIs use context to find the closest matching ancestor.
 
-
----
-
-3. Why do we need it?
-
-Because sometimes a widget needs to find or access something around it in the widget tree.
-
-For example:
-
-Theme.of(context)
-
-This means roughly:
-
-> "Using this widget's location, find the relevant Theme."
-
-
-
-Another common example:
-
-Navigator.of(context)
-
-means:
-
-> "Using this widget's location, find the relevant Navigator."
-
-
-
-So context helps Flutter figure out where to look.
-
-
----
-
-4. Think of it like an address
-
-Here's a useful mental model.
-
-Imagine the widget tree is a huge building:
-
-Building
- └── Floor
-      └── Room
-           └── Widget
-
-BuildContext is like the widget's address.
-
-If you say:
-
-> "Find the theme available around my address."
-
-
-
-Flutter can use:
-
-Theme.of(context)
-
-If you say:
-
-> "Find the Navigator available around my address."
-
-
-
-you can use:
-
-Navigator.of(context)
-
-That's why context is passed around so much in Flutter.
-
-
----
-
-5. Example with Theme
-
-Suppose:
-
-MaterialApp(
-  theme: ThemeData(
-    brightness: Brightness.dark,
-  ),
-  home: MyHomePage(),
-)
-
-Inside a widget:
-
+```dart
+@override
 Widget build(BuildContext context) {
-  final theme = Theme.of(context);
+  final colors = Theme.of(context).colorScheme;
 
   return Text(
-    'Hello',
-    style: theme.textTheme.bodyLarge,
+    'Themed text',
+    style: TextStyle(color: colors.primary),
   );
 }
+```
 
-We're using the widget's context to access the theme provided higher up in the widget tree.
+Common examples:
 
-Conceptually:
+| API | Finds |
+| --- | --- |
+| `Theme.of(context)` | The nearest theme. |
+| `Navigator.of(context)` | The navigator that manages pages. |
+| `ScaffoldMessenger.of(context)` | The messenger used for snack bars. |
+| `MediaQuery.of(context)` | Screen size and user preferences. |
 
-MaterialApp
-   ↓
-Theme
-   ↓
-MyHomePage
-   ↓
-Your Widget
-        ↑
-     context
+## Context Scope Matters
 
-The context helps Flutter understand where that widget is.
+Context can only find ancestors that are above it. A context from the widget that creates a `Scaffold` is not below that scaffold, so it cannot look up that scaffold.
 
+```dart
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
----
-
-6. BuildContext is NOT the widget itself
-
-This distinction matters.
-
-You might be tempted to think:
-
-BuildContext = Widget
-
-No.
-
-They're different.
-
-Think:
-
-Widget
-  ↓
-the thing you're building
-
-BuildContext
-  ↓
-where that widget exists in the tree
-
-A widget describes what should be there.
-
-The context represents where it is.
-
-
----
-
-7. Why is it called BuildContext?
-
-Because it provides context while Flutter is building the widget tree.
-
-That's why you commonly see:
-
-Widget build(BuildContext context)
-
-Flutter essentially says:
-
-> "Here's your context. Build your widget using it."
-
-
-
-
----
-
-🧠 The mental model
-
-Don't try to memorize the technical internals yet.
-
-Just remember:
-
-Widget
-   ↓
-What am I?
-
-BuildContext
-   ↓
-Where am I in the widget tree?
-
-And that location can be useful for accessing things provided higher in the tree:
-
-Theme.of(context)
-Navigator.of(context)
-
-You'll encounter BuildContext a lot as you continue with Flutter.
-
-🎯 Quick check
-
-If you see:
-
-Widget build(BuildContext context) {
-  return Text('Hello');
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Builder(
+        builder: (innerContext) {
+          return ElevatedButton(
+            onPressed: () {
+              ScaffoldMessenger.of(innerContext).showSnackBar(
+                const SnackBar(content: Text('Saved')),
+              );
+            },
+            child: const Text('Show message'),
+          );
+        },
+      ),
+    );
+  }
 }
+```
 
-What does context basically represent?
+`Builder` creates a new context beneath `Scaffold`. In real applications, extracting a child widget is often clearer than adding a `Builder`.
 
-And if you see:
+## Context After an Async Gap
 
-Theme.of(context)
+After `await`, a stateful widget might have been removed from the tree. Check `mounted` before using its context.
 
-why do you think Flutter needs context there?
+```dart
+Future<void> save() async {
+  await Future<void>.delayed(const Duration(seconds: 1));
+  if (!mounted) return;
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text('Saved')),
+  );
+}
+```
+
+This check belongs in a `State` object, where `mounted` and `context` are available.
+
+## Common Mistakes
+
+- **Treating context as the widget:** a widget is the UI description; context is its tree location.
+- **Using the wrong context:** ensure it is below the ancestor you want to access.
+- **Storing a context long-term:** use it only while the relevant widget is mounted.
+- **Using context after `await` without checking `mounted`:** the screen may have been disposed.
+
+## Key Takeaways
+
+- `BuildContext` identifies a location in the widget tree.
+- It lets Flutter find inherited values and ancestor services.
+- Context lookup depends on where that context sits in the tree.
+- Check `mounted` when using a state object's context after asynchronous work.
+
+## Practice
+
+1. Read a color from `Theme.of(context)` and apply it to text.
+2. Show a snack bar from a button under a `Scaffold`.
+3. Explain why a context above `Scaffold` cannot find that scaffold.
+
+## Further Reading
+
+- [BuildContext API reference](https://api.flutter.dev/flutter/widgets/BuildContext-class.html)
+- [Scaffold context lookup](https://api.flutter.dev/flutter/material/Scaffold/of.html)

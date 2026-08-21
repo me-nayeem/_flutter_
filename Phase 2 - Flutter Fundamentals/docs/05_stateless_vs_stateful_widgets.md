@@ -1,100 +1,40 @@
-Phase 2 — Flutter Fundamentals
+# Stateless and Stateful Widgets
 
-5. Stateless vs Stateful Widgets
+Every custom Flutter widget is usually either stateless or stateful. Choose based on whether the widget itself needs to own data that changes during its lifetime.
 
-This is a very important distinction in Flutter.
+## Learning Goals
 
-The basic idea is:
+- Choose between `StatelessWidget` and `StatefulWidget`.
+- Understand a stateful widget's two-class structure.
+- Use `setState` to update local UI state.
 
-> Stateless widget → its configuration doesn't change during its lifetime.
-Stateful widget → it has mutable state that can change and cause the UI to update.
+## StatelessWidget
 
+Use `StatelessWidget` when the widget only displays its constructor inputs and does not manage mutable state of its own.
 
+```dart
+class WelcomeMessage extends StatelessWidget {
+  const WelcomeMessage({
+    super.key,
+    required this.name,
+  });
 
-Let's make that concrete.
-
-
----
-
-1. Stateless widget
-
-A StatelessWidget is appropriate when the widget doesn't need to manage changing state itself.
-
-Example:
-
-class WelcomeText extends StatelessWidget {
-  const WelcomeText({super.key});
+  final String name;
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Welcome, Nayeem!');
+    return Text('Welcome, $name!');
   }
 }
+```
 
-The important part is:
+The parent can provide a different `name` later, so a stateless widget can rebuild and display different output. It simply does not own mutable state itself.
 
-extends StatelessWidget
+## StatefulWidget
 
-And every widget must implement:
+Use `StatefulWidget` when the widget owns local data that changes while it is on screen, such as a selected tab, a counter, or an animation value.
 
-build()
-
-The build() method describes what the widget should display.
-
-So conceptually:
-
-WelcomeText
-     ↓
-  build()
-     ↓
- Text('Welcome, Nayeem!')
-
-
----
-
-2. Why is it called "Stateless"?
-
-Because the widget itself doesn't maintain mutable state.
-
-For example, this is a simple piece of UI:
-
-const Text('Hello')
-
-There's no counter, selected item, text input, etc. that this widget needs to change internally.
-
-So StatelessWidget is a natural fit.
-
-
----
-
-3. Stateful widget
-
-Now imagine a counter:
-
-Count: 0
-
-     [+]
-
-When the user presses +:
-
-Count: 0
-   ↓
-Count: 1
-
-Then:
-
-Count: 1
-   ↓
-Count: 2
-
-Something is changing.
-
-That's state.
-
-For this, we use a StatefulWidget.
-
-A basic example:
-
+```dart
 class Counter extends StatefulWidget {
   const Counter({super.key});
 
@@ -103,234 +43,85 @@ class Counter extends StatefulWidget {
 }
 
 class _CounterState extends State<Counter> {
-  int count = 0;
+  int _count = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return Text('$count');
-  }
-}
-
-Here:
-
-int count = 0;
-
-is state that can change.
-
-
----
-
-4. The interesting part: two classes
-
-A StatefulWidget normally involves two classes:
-
-class Counter extends StatefulWidget {
-  ...
-}
-
-class _CounterState extends State<Counter> {
-  ...
-}
-
-At first this looks weird.
-
-Why two classes?
-
-Because Flutter separates:
-
-Widget
-   +
-State
-
-The Counter widget describes the widget's configuration.
-
-The _CounterState object holds the mutable state.
-
-For now, don't overthink the internals.
-
-Just remember:
-
-StatefulWidget
-      ↓
-   State<T>
-      ↓
-mutable state
-
-
----
-
-5. setState()
-
-Here's the most important part.
-
-Suppose:
-
-int count = 0;
-
-We want to increase it:
-
-count++;
-
-Simply changing the variable isn't enough to tell Flutter:
-
-> "Hey, the UI needs to update."
-
-
-
-We use:
-
-setState(() {
-  count++;
-});
-
-For example:
-
-class Counter extends StatefulWidget {
-  const Counter({super.key});
-
-  @override
-  State<Counter> createState() => _CounterState();
-}
-
-class _CounterState extends State<Counter> {
-  int count = 0;
-
-  void increment() {
+  void _increment() {
     setState(() {
-      count++;
+      _count++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text('$count'),
+        Text('Count: $_count'),
         ElevatedButton(
-          onPressed: increment,
+          onPressed: _increment,
           child: const Text('Add'),
         ),
       ],
     );
   }
 }
+```
 
-The important sequence is:
+## Why Are There Two Classes?
 
-User taps button
-      ↓
-increment()
-      ↓
-setState()
-      ↓
-count changes
-      ↓
-Flutter rebuilds the relevant UI
-      ↓
-new count appears
+```text
+Counter (StatefulWidget)
+`- immutable configuration
 
-That's the basic idea behind reactive UI in Flutter.
+_CounterState (State<Counter>)
+`- mutable state and build method
+```
 
+The widget object holds configuration supplied by the parent. The `State` object holds data that survives rebuilds while the widget remains at the same location in the tree.
 
----
+## What `setState` Does
 
-6. Stateless doesn't mean "never changes"
+`setState` tells Flutter that the state changed and schedules a rebuild for that state object's subtree.
 
-This is a subtle but important point.
+```dart
+setState(() {
+  _count++;
+});
+```
 
-A StatelessWidget can rebuild.
+Do not change UI state outside `setState` if the change must appear on screen. Keep the callback short: update the value inside it, and do asynchronous or expensive work outside it.
 
-For example, a parent can rebuild and provide different values to a StatelessWidget.
+## Choosing the Right Type
 
-So don't interpret "stateless" as:
+| Use `StatelessWidget` when... | Use `StatefulWidget` when... |
+| --- | --- |
+| The UI is derived from inputs only. | The widget owns changing local data. |
+| You display labels, cards, icons, or fixed layouts. | You handle a counter, checkbox, tab, animation, or form interaction. |
+| A parent or external state manager owns the state. | `setState` is sufficient for local screen state. |
 
-> "This widget can never display anything different."
+> Start with `StatelessWidget`. Convert to `StatefulWidget` only when the widget needs to own mutable UI state. Later, app-wide state can be managed outside widgets.
 
+## Common Mistakes
 
+- **Calling `setState` inside `build`:** this creates a rebuild loop.
+- **Making every widget stateful:** stateful is not more powerful; it is appropriate only when local mutable state is required.
+- **Mutating state without `setState`:** the value changes, but Flutter is not told to redraw the UI.
+- **Starting async work in `build`:** `build` can run many times; use lifecycle methods or an event callback instead.
 
-Instead, think:
+## Key Takeaways
 
-> The widget itself doesn't own mutable state.
+- A stateless widget does not own mutable state.
+- A stateful widget pairs immutable configuration with a persistent `State` object.
+- `setState` updates local state and triggers a rebuild.
+- Rebuilding is normal; write `build` as a quick description of the UI.
 
+## Practice
 
+1. Create a stateless profile label that receives a name.
+2. Build a stateful counter with increment and reset buttons.
+3. Add a boolean to show or hide a text message using `setState`.
 
-That's a much better mental model.
+## Further Reading
 
-
----
-
-7. When should you use each?
-
-Use StatelessWidget when:
-
-The widget doesn't need to maintain changing state.
-
-Examples:
-
-Welcome message
-Profile label
-Icon
-Static section
-Reusable display widget
-
-Use StatefulWidget when:
-
-The widget needs to manage changing state.
-
-Examples:
-
-Counter
-Checkbox selection
-Animation state
-Text/input interaction
-Expandable section
-Selected tab
-
-Later we'll learn that state can also be managed outside a widget using state-management approaches such as Riverpod or BLoC.
-
-But don't worry about that yet. Our roadmap deliberately has you learn basic state first. 
-
-
----
-
-🧠 The mental model
-
-Think of it like this:
-
-StatelessWidget
-      ↓
-"I display something based on my inputs."
-
-StatefulWidget
-      ↓
-"I have state that can change."
-
-setState()
-      ↓
-"Flutter, my state changed.
-Please rebuild the relevant UI."
-
-And the big distinction:
-
-Stateless
-   → no mutable state owned by the widget
-
-Stateful
-   → owns mutable state
-   → state can change
-   → setState() can trigger a rebuild
-
-🎯 Quick check
-
-Imagine a screen showing:
-
-Username: Nayeem
-Age: 21
-
-Nothing on the screen changes while the app is running.
-
-Would you normally use a StatelessWidget or StatefulWidget for that display?
-
-And then imagine a counter where the user can press + and change 0 → 1 → 2 → 3.
-
-Which one would you use there, and why?
+- [Building user interfaces with Flutter](https://docs.flutter.dev/ui)
+- [StatefulWidget API reference](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html)

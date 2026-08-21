@@ -1,406 +1,143 @@
-Phase 2 — Flutter Fundamentals
+# Flutter Project Structure
 
-1. Flutter Project Structure
+A Flutter project combines Dart application code, platform-specific projects, configuration, and tests. You will spend most of your time in `lib/`, but knowing where everything belongs prevents confusion as an app grows.
 
-Great. Phase 1 is complete. 🎯
+## Learning Goals
 
-Now we're moving from Dart itself into Flutter.
+- Recognize the important files and folders in a Flutter project.
+- Understand where application code, packages, assets, tests, and native settings belong.
+- Start with a simple structure without over-organizing too early.
 
-The first thing is understanding what Flutter creates for you when you run:
+## Create and Run an App
 
+```bash
 flutter create my_app
+cd my_app
+flutter run
+```
 
-Before learning widgets like MaterialApp and Scaffold, you should know where your Flutter code lives and what the important folders/files are for.
+`flutter create` generates a complete project. `flutter run` builds the app and starts it on a connected device, emulator, or browser.
 
+## Project Map
 
----
-
-1. The basic Flutter project
-
-A newly created Flutter project looks roughly like this:
-
+```text
 my_app/
-│
-├── android/
-├── ios/
-├── lib/
-│   └── main.dart
-│
-├── test/
-│
-├── web/
-├── windows/
-├── macos/
-├── linux/
-│
-├── pubspec.yaml
-├── pubspec.lock
-└── analysis_options.yaml
+|- android/                 Android project and native configuration
+|- ios/                     iOS project and native configuration
+|- lib/                     Dart and Flutter application code
+|  `- main.dart             Application entry point
+|- test/                    Automated tests
+|- web/                     Web runner and configuration
+|- pubspec.yaml             Project metadata, packages, assets
+|- pubspec.lock             Resolved package versions
+`- analysis_options.yaml    Dart analyzer and lint rules
+```
 
-You don't need to memorize every file.
+Desktop folders such as `windows/`, `macos/`, and `linux/` appear when those platforms are enabled.
 
-For now, focus on:
+## The Files You Need First
 
-lib/
-main.dart
-pubspec.yaml
-test/
-android/
-ios/
+| Location | Purpose | Beginner focus |
+| --- | --- | --- |
+| `lib/` | Application source code | High |
+| `lib/main.dart` | Starts the application | High |
+| `pubspec.yaml` | Packages, assets, app metadata | High |
+| `test/` | Automated tests | Later |
+| `android/`, `ios/` | Native platform configuration | Later |
 
+## `lib/main.dart`: The Entry Point
 
----
+Every Flutter app begins by executing `main()`. `runApp` receives the root widget of the application.
 
-2. lib/ — your main Flutter code
-
-This is the most important folder for you right now.
-
-lib/
-
-Your application's Dart/Flutter source code normally goes here.
-
-For example:
-
-lib/
-├── main.dart
-├── home_page.dart
-├── login_page.dart
-└── user.dart
-
-As your application grows, you'll organize your code into folders.
-
-For example:
-
-lib/
-├── main.dart
-├── screens/
-├── widgets/
-├── models/
-└── services/
-
-Don't worry about architecture or complicated folder structures yet.
-
-We'll learn those later.
-
-
----
-
-3. main.dart
-
-This is usually the starting point of your Flutter application.
-
-A basic Flutter application might contain:
-
+```dart
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-The important part is:
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-void main()
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: Scaffold(
+        body: Center(child: Text('Hello, Flutter!')),
+      ),
+    );
+  }
+}
+```
 
-You already know main() from Dart.
+The next lessons explain `MaterialApp`, `Scaffold`, and widgets in detail.
 
-It's the entry point of the Dart program.
+## `pubspec.yaml`: Project Configuration
 
-Then:
+`pubspec.yaml` defines the app's name, SDK constraints, dependencies, and assets.
 
-runApp(...)
-
-tells Flutter:
-
-> "Start the Flutter application using this widget."
-
-
-
-We'll learn runApp() and MaterialApp properly in the next lessons.
-
-For now, just understand the flow:
-
-main()
-   ↓
-runApp()
-   ↓
-Flutter application starts
-
-
----
-
-4. pubspec.yaml
-
-This is one of the most important files in a Flutter project.
-
-You'll find:
-
-pubspec.yaml
-
-at the project root.
-
-It contains information about your project, including things such as:
-
-project name
-
-version
-
-dependencies
-
-assets
-
-environment information
-
-
-For example:
-
+```yaml
 name: my_app
 
 dependencies:
   flutter:
     sdk: flutter
 
-Later, when you use packages, you'll add them here.
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+```
 
-For example, conceptually:
+After changing dependencies, run `flutter pub get`. Assets must be declared here before `Image.asset` can load them.
 
-dependencies:
-  http: ...
+## A Practical `lib/` Layout
 
-Then Flutter/Dart knows your application depends on that package.
+Start small. Create folders only when the code needs them.
 
-
----
-
-5. Assets
-
-You can also declare assets in pubspec.yaml.
-
-For example, suppose your project has:
-
-assets/
-└── images/
-    └── profile.png
-
-You can configure the asset in pubspec.yaml.
-
-Then your Flutter code can access it.
-
-We'll study assets much later in Phase 3, so don't worry about the syntax yet.
-
-Just remember:
-
-> pubspec.yaml is where Flutter project configuration and dependencies/assets are declared.
-
-
-
-
----
-
-6. test/
-
-The:
-
-test/
-
-directory is for automated tests.
-
-For example:
-
-test/
-└── widget_test.dart
-
-You don't need to learn testing now.
-
-Testing is part of Phase 8 — Professional development in our roadmap. 
-
-So for now:
-
-test/
-   ↓
-automated tests
-
-That's enough.
-
-
----
-
-7. android/
-
-This folder contains the Android-specific part of your Flutter project.
-
-android/
-
-Flutter applications can contain native platform code.
-
-For example:
-
-Flutter code
-     ↓
-   Android
-
-The Android project lives inside:
-
-android/
-
-You don't need to start learning Android native development now.
-
-Remember our roadmap explicitly says not to worry about native platform code early. 
-
-We'll come back to platform integration much later.
-
-
----
-
-8. ios/
-
-Similarly:
-
-ios/
-
-contains the iOS-specific project configuration/code.
-
-So:
-
-android/ → Android side
-ios/     → iOS side
-lib/     → Flutter/Dart side
-
-This distinction is very important.
-
-
----
-
-9. What about web/, windows/, macos/, linux/?
-
-Flutter can target multiple platforms.
-
-So depending on the project configuration, you may see:
-
-web/
-windows/
-macos/
-linux/
-
-These contain platform-specific project files.
-
-You don't need to study them individually right now.
-
-The big picture is:
-
-Flutter project
-                       │
-              ┌────────┴────────┐
-              │                 │
-          lib/             Platform folders
-              │                 │
-        Dart/Flutter       Android / iOS / etc.
-
-
----
-
-10. The most important distinction
-
-When you're starting Flutter, keep this mental model:
-
+```text
 lib/
+|- main.dart
+|- screens/
+|- widgets/
+|- models/
+`- services/
+```
 
-"This is where I build my Flutter application."
+- `screens/`: full pages, such as `home_screen.dart`.
+- `widgets/`: reusable UI pieces, such as `profile_header.dart`.
+- `models/`: typed data, such as `user.dart`.
+- `services/`: external work, such as an API client.
 
-main.dart
+> Do not copy a complex architecture into a small learning project. A clear `main.dart` is enough until the project gives you a reason to split it.
 
-"This is normally where my Flutter app starts."
+## Platform Folders
 
-pubspec.yaml
+Flutter shares UI and business logic from `lib/`, while each platform folder contains the launcher, build configuration, and native integration needed for that target.
 
-"This describes/configures my project and its dependencies/assets."
+```text
+lib/       Flutter and Dart code
+android/   Android-specific project
+ios/       iOS-specific project
+web/       Web-specific runner
+```
 
-android/ and ios/
+You normally edit these folders only for platform setup, permissions, signing, or native integrations.
 
-"These contain platform-specific parts."
+## Key Takeaways
 
-test/
+- `lib/` contains your Flutter application.
+- `main.dart` is the usual entry point.
+- `pubspec.yaml` manages packages and assets.
+- Keep the initial folder structure simple and evolve it with the app.
 
-"This is where tests live."
+## Practice
 
-That's enough for now.
+1. Create a new Flutter application and run it on a device or browser.
+2. Locate `lib/main.dart`, `pubspec.yaml`, `test/`, `android/`, and `ios/`.
+3. Add an `assets/images/` folder and declare it in `pubspec.yaml`.
 
+## Further Reading
 
----
-
-11. A real beginner project
-
-Imagine we're building a Notes app.
-
-Initially:
-
-notes_app/
-│
-├── lib/
-│   └── main.dart
-│
-├── test/
-│
-├── android/
-├── ios/
-│
-└── pubspec.yaml
-
-Later, when the app becomes larger:
-
-notes_app/
-│
-├── lib/
-│   ├── main.dart
-│   ├── screens/
-│   ├── widgets/
-│   ├── models/
-│   └── services/
-│
-├── test/
-├── android/
-├── ios/
-└── pubspec.yaml
-
-Notice that we don't need to create all those folders immediately.
-
-We'll introduce them when we actually need them.
-
-
----
-
-🧠 One important concept
-
-Don't confuse:
-
-Dart project
-
-with:
-
-Flutter project
-
-A Flutter project uses Dart, but Flutter adds its own project structure, tooling, widgets, platform integration, assets, and configuration.
-
-So your journey is now:
-
-Dart
- ↓
-Flutter
- ↓
-Widgets
- ↓
-Applications
-
-You've finished the Dart fundamentals needed to start this.
-
-
----
-
-🎯 Quick check
-
-Before moving to 2. MaterialApp, tell me what these three are used for:
-
-1. lib/
-2. main.dart
-3. pubspec.yaml
-
-Just explain them in your own words. Don't worry about perfect terminology.
+- [Flutter: Create an app](https://docs.flutter.dev/learn/pathway/tutorial/create-an-app)
+- [Flutter architecture guide](https://docs.flutter.dev/app-architecture/guide)

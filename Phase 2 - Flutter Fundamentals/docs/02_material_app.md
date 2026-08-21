@@ -1,207 +1,117 @@
-Phase 2 — Flutter Fundamentals
+# MaterialApp
 
-2. MaterialApp
+`MaterialApp` is the usual root widget for an application that follows Material Design. It supplies application-wide capabilities such as theming, navigation, localization, and a default text direction.
 
-Yep. Now we get to one of the most important pieces of a basic Flutter app: MaterialApp.
+## Learning Goals
 
-Think of MaterialApp as the top-level configuration widget for a Material Design Flutter application.
+- Place `MaterialApp` at the root of a basic Flutter app.
+- Use `home`, `title`, and `theme`.
+- Understand the difference between application configuration and a screen layout.
 
-A very common Flutter structure looks like this:
+## The Basic Pattern
 
+```dart
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      home: Text('Hello Flutter'),
-    ),
-  );
+  runApp(const MyApp());
 }
 
-Let's break that down.
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-1. runApp()
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Learning Flutter',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(colorSchemeSeed: Colors.teal),
+      home: const HomeScreen(),
+    );
+  }
+}
+```
 
-You already saw this in the previous lesson:
+The widget tree begins like this:
 
-runApp(...)
-
-It tells Flutter:
-
-> "This is the widget that should be at the root of my application."
-
-
-
-Here, we're giving it a MaterialApp:
-
-runApp(
-  MaterialApp(...)
-);
-
-So the hierarchy is:
-
+```text
 main()
-   ↓
-runApp()
-   ↓
-MaterialApp
-   ↓
-Your application UI
+`- runApp()
+   `- MaterialApp
+      `- HomeScreen
+```
 
-2. What does MaterialApp actually do?
+## Important Properties
 
-MaterialApp gives your application a bunch of Material-related functionality and configuration.
+| Property | Purpose |
+| --- | --- |
+| `home` | The first screen shown when the app starts. |
+| `title` | A label used by the operating system, such as in task switching. |
+| `theme` | Default Material colors, typography, and component styling. |
+| `routes` | Named routes for navigation. |
+| `debugShowCheckedModeBanner` | Controls the debug banner during development. |
 
-Among other things, it can manage:
+## `home` Is a Widget
 
-application-wide theme
+The `home` property receives a widget, usually a full screen that contains a `Scaffold`.
 
-navigation
+```dart
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
-routes
-
-app title
-
-localization
-
-Material design behavior
-
-
-You don't need to memorize all of these yet.
-
-For now, remember:
-
-> MaterialApp is commonly the root widget of a Material Flutter application.
-
-
-
-3. The home property
-
-You'll see this constantly:
-
-MaterialApp(
-  home: Text('Hello Flutter'),
-)
-
-home specifies the widget that should be displayed as the application's initial screen.
-
-For example:
-
-MaterialApp(
-  home: MyHomePage(),
-)
-
-means:
-
-MaterialApp
-     ↓
-home
-     ↓
-MyHomePage
-
-Later, MyHomePage will usually contain something much more useful, such as a Scaffold.
-
-4. MaterialApp is itself a widget
-
-This is a really important connection.
-
-You learned that Flutter is built around widgets.
-
-MaterialApp is a widget.
-
-So is:
-
-Text()
-
-And later you'll learn:
-
-Scaffold()
-Column()
-Row()
-Container()
-
-They're all widgets.
-
-That's why you can nest them:
-
-MaterialApp
-   ↓
-Scaffold
-   ↓
-Column
-   ↓
-Text
-
-This widget-tree idea is one of the most important concepts in Flutter.
-
-5. A more realistic starting point
-
-You'll commonly see:
-
-void main() {
-  runApp(
-    MaterialApp(
-      home: MyHomePage(),
-    ),
-  );
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Home')),
+      body: const Center(child: Text('Welcome!')),
+    );
+  }
 }
+```
 
-And eventually:
+`MaterialApp` configures the app. `HomeScreen` describes one screen. This separation stays useful as the app gains more pages.
 
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'My App',
-      theme: ThemeData(
-        // theme configuration
-      ),
-      home: MyHomePage(),
-    ),
-  );
-}
+## App-Wide Theme
 
-Don't worry about ThemeData yet. We'll get there later.
+Define shared visual decisions once instead of styling each widget separately.
 
-🧠 Mental model
-
-Think of it like this:
-
-runApp()
-   ↓
-"Start my Flutter app"
-
-MaterialApp
-   ↓
-"Set up the Material application"
-
-home
-   ↓
-"Show this as the initial screen"
-
-So if you see:
-
-runApp(
-  MaterialApp(
-    home: HomePage(),
+```dart
+MaterialApp(
+  theme: ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+    useMaterial3: true,
   ),
-);
-
-you should immediately understand:
-
-> Flutter starts → MaterialApp becomes the root → HomePage is the initial screen.
-
-
-
-🎯 Quick check
-
-If I write:
-
-MaterialApp(
-  home: LoginPage(),
+  home: const HomeScreen(),
 )
+```
 
-What does LoginPage represent?
+Widgets lower in the tree can read the theme with `Theme.of(context)`.
 
-And one more:
+## MaterialApp and Other Root Widgets
 
-Why do we put MaterialApp inside runApp()?
+`MaterialApp` is appropriate for a Material Design app. Flutter also provides `CupertinoApp` for iOS-style applications and lower-level options such as `WidgetsApp`.
+
+For this learning path, use `MaterialApp` unless there is a specific design reason not to.
+
+## Common Mistakes
+
+- **Using `Text` directly as `home`:** it may render, but a screen normally needs `Scaffold` to provide Material layout and styling.
+- **Creating multiple `MaterialApp` widgets:** use one at the app root; nested apps can create unexpected navigation and theme behavior.
+- **Putting screen-specific state in `MaterialApp`:** keep app configuration at the root and page behavior in the relevant screen.
+
+## Key Takeaways
+
+- `runApp` mounts the root widget tree.
+- `MaterialApp` configures a Material Design application.
+- `home` identifies the first screen.
+- `Scaffold` is normally placed below `MaterialApp` to structure a screen.
+
+## Practice
+
+1. Set the app title to your project name.
+2. Disable the debug banner.
+3. Choose a `colorSchemeSeed` and observe how the `AppBar` changes.
+
+## Further Reading
+
+- [MaterialApp API reference](https://api.flutter.dev/flutter/material/MaterialApp-class.html)

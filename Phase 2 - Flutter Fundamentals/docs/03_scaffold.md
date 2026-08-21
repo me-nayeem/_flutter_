@@ -1,273 +1,115 @@
-Phase 2 — Flutter Fundamentals
+# Scaffold
 
-3. Scaffold
+`Scaffold` provides the standard Material layout for one screen. It gives named locations for common UI elements, so you can build a page without manually positioning every part.
 
-Now we get to a very important Flutter widget.
+## Learning Goals
 
-If MaterialApp is like the overall setup of your app, then Scaffold is like the basic structure of an individual screen.
+- Use `Scaffold` to create a screen structure.
+- Place content in `appBar`, `body`, and `floatingActionButton`.
+- Distinguish an app-level `MaterialApp` from a screen-level `Scaffold`.
 
-Think:
+## A Complete Screen
 
-MaterialApp
-    ↓
-Scaffold
-    ↓
-Your screen
+```dart
+class NotesScreen extends StatelessWidget {
+  const NotesScreen({super.key});
 
-
----
-
-1. What is Scaffold?
-
-Scaffold provides a standard visual structure for a Material Design screen.
-
-For example, a screen can have:
-
-an app bar at the top
-
-the main body
-
-a floating action button
-
-a navigation drawer
-
-a bottom navigation bar
-
-
-Scaffold gives you places to put these things.
-
-A simple example:
-
-Scaffold(
-  appBar: AppBar(
-    title: Text('Home'),
-  ),
-  body: Text('Hello Flutter'),
-)
-
-So you can think of Scaffold as:
-
-> The skeleton of a screen.
-
-
-
-
----
-
-2. appBar
-
-The appBar is the bar at the top of the screen.
-
-Scaffold(
-  appBar: AppBar(
-    title: Text('Home'),
-  ),
-)
-
-Conceptually:
-
-┌─────────────────────────┐
-│ Home                    │ ← AppBar
-├─────────────────────────┤
-│                         │
-│                         │
-│       Screen body       │ ← body
-│                         │
-│                         │
-└─────────────────────────┘
-
-We'll learn AppBar in more detail later. For now, just understand where it belongs.
-
-
----
-
-3. body
-
-The body is the main content area of your screen.
-
-Scaffold(
-  body: Text('Hello Flutter'),
-)
-
-You can put almost any widget there.
-
-For example:
-
-Scaffold(
-  body: Column(
-    children: [
-      Text('Welcome'),
-      Text('Nayeem'),
-    ],
-  ),
-)
-
-Later, your body might contain an entire page layout.
-
-
----
-
-4. Putting MaterialApp and Scaffold together
-
-Now let's connect the last two lessons.
-
-void main() {
-  runApp(
-    MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My App'),
-        ),
-        body: Text('Hello Flutter'),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Notes')),
+      body: const Center(child: Text('No notes yet.')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
       ),
-    ),
-  );
+    );
+  }
 }
+```
 
-The widget tree is:
-
-runApp()
-   ↓
-MaterialApp
-   ↓
+```text
 Scaffold
-   ├── appBar
-   │     ↓
-   │   AppBar
-   │
-   └── body
-         ↓
-       Text
+|- appBar: AppBar
+|- body: Center
+|  `- Text
+`- floatingActionButton: FloatingActionButton
+```
 
-This is a very important Flutter pattern.
+## Main Scaffold Areas
 
+| Property | Use |
+| --- | --- |
+| `appBar` | Header area, usually an `AppBar`. |
+| `body` | Main content of the screen. |
+| `floatingActionButton` | Primary contextual action, such as adding an item. |
+| `drawer` | Side navigation panel. |
+| `bottomNavigationBar` | Navigation between top-level sections. |
+| `bottomSheet` | Persistent content anchored at the bottom. |
 
----
+You do not need every property on every screen. Start with `body`, then add structure only when the user flow needs it.
 
-5. floatingActionButton
+## `AppBar`
 
-Scaffold can also provide a floating action button.
+`AppBar` commonly holds a title, navigation control, and actions.
 
-For example:
-
-Scaffold(
-  appBar: AppBar(
-    title: Text('Notes'),
-  ),
-  body: Text('My notes'),
-  floatingActionButton: FloatingActionButton(
-    onPressed: () {},
-    child: Icon(Icons.add),
-  ),
-)
-
-Visually, think:
-
-┌─────────────────────────┐
-│ Notes                   │
-├─────────────────────────┤
-│                         │
-│       My notes          │
-│                         │
-│                    (+)  │
-└─────────────────────────┘
-
-The + button is the FloatingActionButton.
-
-
----
-
-6. Scaffold doesn't mean "the whole application"
-
-This distinction is important.
-
-You generally don't think:
-
-Scaffold = entire app
-
-Instead:
-
-MaterialApp = application-level setup
-Scaffold    = structure for a screen
-
-For example, an app might eventually have:
-
-MaterialApp
-   │
-   ├── Home screen
-   │      └── Scaffold
-   │
-   ├── Login screen
-   │      └── Scaffold
-   │
-   └── Settings screen
-          └── Scaffold
-
-Each screen can have its own Scaffold.
-
-
----
-
-🧠 Your mental model
-
-Remember these three:
-
-runApp()
-   ↓
-Starts the Flutter widget tree
-
-MaterialApp
-   ↓
-Application-level Material configuration
-
-Scaffold
-   ↓
-Basic visual structure of a screen
-
-And inside Scaffold:
-
-Scaffold
-├── appBar
-├── body
-├── floatingActionButton
-├── drawer
-└── bottomNavigationBar
-
-You don't need to memorize every property yet.
-
-The big one for now is:
-
-Scaffold gives a screen its basic structure.
-
-
----
-
-🎯 Quick check
-
-If I give you:
-
-MaterialApp(
-  home: Scaffold(
-    appBar: AppBar(
-      title: Text('Profile'),
+```dart
+AppBar(
+  title: const Text('Profile'),
+  actions: [
+    IconButton(
+      tooltip: 'Settings',
+      icon: const Icon(Icons.settings),
+      onPressed: () {},
     ),
-    body: Text('Nayeem'),
-  ),
+  ],
 )
+```
 
-Tell me what each of these represents:
+Use tooltips for icon-only controls so their purpose is clear to assistive technologies and mouse users.
 
-1. MaterialApp
+## The `body`
 
+`body` is a single widget. Use a layout widget when the screen needs multiple elements.
 
-2. Scaffold
+```dart
+body: const Center(
+  child: Text('Welcome back!'),
+)
+```
 
+Later, `Column`, `ListView`, and `Stack` will help you arrange richer content in this area.
 
-3. AppBar
+## One App, Many Scaffolds
 
+An app commonly has one root `MaterialApp` and several screens. Each screen can use its own `Scaffold`.
 
-4. body
+```text
+MaterialApp
+|- HomeScreen -> Scaffold
+|- ProfileScreen -> Scaffold
+`- SettingsScreen -> Scaffold
+```
 
+## Common Mistakes
 
+- **Treating `Scaffold` as the entire application:** it describes a screen, not the app-wide navigation and theme setup.
+- **Using multiple floating action buttons:** use one primary action; move secondary actions to the app bar or content.
+- **Putting unbounded scrollable content in a `Column`:** use `ListView` when content can exceed the screen height.
 
-Once you've got those, we'll move to 4. Widgets — which is arguably the most important concept in Flutter.
+## Key Takeaways
+
+- `Scaffold` supplies a familiar Material screen layout.
+- `appBar` and `body` are the most common properties.
+- A floating action button represents one high-priority screen action.
+
+## Practice
+
+1. Build a profile screen with an `AppBar` and centered text.
+2. Add an icon button to the app bar with a tooltip.
+3. Add a floating action button that prints a message in its callback.
+
+## Further Reading
+
+- [Flutter layout tutorial](https://docs.flutter.dev/learn/pathway/tutorial/layout)
+- [Scaffold API reference](https://api.flutter.dev/flutter/material/Scaffold-class.html)

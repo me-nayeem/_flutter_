@@ -1,141 +1,163 @@
-7. Text, Image, and Icon
+# Text, Image, and Icon
 
-These are three of the simplest and most common Flutter widgets. They’re also good practice for getting comfortable with the widget-tree idea.
+`Text`, `Image`, and `Icon` are core display widgets. They present the content users read, recognize, and scan throughout an application.
 
-1. Text
+## Learning Goals
 
-Text displays text on the screen:
+- Display and style text.
+- Use Material icons accessibly.
+- Load local and network images with appropriate states.
 
-Text('Hello Flutter')
+## Text
 
-You can also configure it:
+Use `Text` for a string of text. Prefer the app theme for consistent typography instead of applying a custom style everywhere.
 
+```dart
 Text(
-  'Hello Flutter',
-  style: TextStyle(
-    fontSize: 24,
-  ),
+  'Welcome back',
+  style: Theme.of(context).textTheme.headlineSmall,
 )
+```
 
-So:
+For a local one-line label that never changes, use `const`:
 
-Text
- └── 'Hello Flutter'
+```dart
+const Text('Save')
+```
 
-For now, remember: Text is a widget used to display text.
+Useful properties include `maxLines`, `overflow`, `textAlign`, and `semanticsLabel`.
 
-
----
-
-2. Icon
-
-Icon displays an icon from Flutter's built-in Material icons:
-
-Icon(Icons.home)
-
-For example:
-
-Icon(Icons.person)
-Icon(Icons.favorite)
-Icon(Icons.settings)
-Icon(Icons.add)
-
-The important part is:
-
-Icons.home
-
-Icons gives you the available Material icon definitions, and Icon displays one.
-
-You can also configure it:
-
-Icon(
-  Icons.home,
-  size: 32,
+```dart
+const Text(
+  'A long title that may not fit on one line',
+  maxLines: 1,
+  overflow: TextOverflow.ellipsis,
 )
+```
 
+## Icon
 
----
+Material icons are supplied through the `Icons` class.
 
-3. Image
-
-Image displays an image.
-
-There are different sources an image can come from. Two important ones are:
-
-From the network:
-
-Image.network(
-  'https://example.com/photo.jpg',
+```dart
+const Icon(
+  Icons.favorite_border,
+  size: 28,
+  semanticLabel: 'Add to favorites',
 )
+```
 
-From your application's assets:
+Use an icon-only control only when the symbol is familiar. Put it inside `IconButton` for interaction, and give it a tooltip.
 
+```dart
+IconButton(
+  tooltip: 'Open settings',
+  onPressed: () {},
+  icon: const Icon(Icons.settings),
+)
+```
+
+`uses-material-design: true` in `pubspec.yaml` enables the built-in Material icon font.
+
+## Local Asset Images
+
+Declare assets in `pubspec.yaml` first:
+
+```yaml
+flutter:
+  assets:
+    - assets/images/
+```
+
+Then load an image by its project-relative path.
+
+```dart
 Image.asset(
-  'assets/images/photo.png',
+  'assets/images/profile.png',
+  width: 120,
+  height: 120,
+  fit: BoxFit.cover,
 )
+```
 
-We'll learn assets properly later, so don't worry about pubspec.yaml configuration yet.
+`BoxFit.cover` fills the available box while preserving the image's aspect ratio; parts of the image may be cropped.
 
+## Network Images
 
----
+Use `Image.network` for remote images. Always provide a loading and error state because the request can be slow or fail.
 
-4. Putting them together
-
-Here's a simple screen:
-
-Scaffold(
-  appBar: AppBar(
-    title: const Text('Profile'),
-  ),
-  body: Column(
-    children: [
-      Image.asset('assets/images/profile.png'),
-      const Icon(Icons.person),
-      const Text('Nayeem'),
-    ],
-  ),
+```dart
+Image.network(
+  'https://images.example.com/profile.jpg',
+  width: 120,
+  height: 120,
+  fit: BoxFit.cover,
+  loadingBuilder: (context, child, loadingProgress) {
+    if (loadingProgress == null) return child;
+    return const SizedBox(
+      width: 120,
+      height: 120,
+      child: Center(child: CircularProgressIndicator()),
+    );
+  },
+  errorBuilder: (context, error, stackTrace) {
+    return const SizedBox(
+      width: 120,
+      height: 120,
+      child: Icon(Icons.broken_image),
+    );
+  },
 )
+```
 
-The widget tree is:
+## A Small Profile Header
 
-Scaffold
-├── AppBar
-│   └── Text
-│
-└── Column
-    ├── Image
-    ├── Icon
-    └── Text
+```dart
+class ProfileHeader extends StatelessWidget {
+  const ProfileHeader({super.key});
 
-And notice something important: Image, Icon, and Text are all just widgets.
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        CircleAvatar(
+          radius: 44,
+          child: Icon(Icons.person, size: 44),
+        ),
+        SizedBox(height: 12),
+        Text('Nayeem'),
+        Text('Flutter learner'),
+      ],
+    );
+  }
+}
+```
 
-That's the pattern you're learning.
+This combines familiar widgets into a reusable UI section.
 
+## Common Mistakes
 
----
+- **Forgetting to declare local assets:** `Image.asset` cannot load an undeclared path.
+- **Ignoring image dimensions:** unbounded images can cause layout problems; provide constraints when appropriate.
+- **Using text characters as icons:** use `Icon` for consistent sizing, color, accessibility, and platform rendering.
+- **Ignoring network errors:** remote images can fail, so provide a fallback UI.
 
-🧠 Mental model
+## Key Takeaways
 
-Keep these three simple definitions:
+- `Text` displays styled strings; use the theme for consistency.
+- `Icon` displays a symbol; use `IconButton` for tappable icons.
+- `Image.asset` loads bundled files, while `Image.network` loads remote files.
+- Give images sensible constraints and error states.
 
-Text
-→ displays text
+## Practice
 
-Image
-→ displays an image
+1. Create a profile header with an icon, name, and subtitle.
+2. Add a local image asset and display it with `BoxFit.cover`.
+3. Add a network image with loading and error builders.
 
-Icon
-→ displays an icon
+## Further Reading
 
-And because they're widgets, you can combine them with other widgets:
-
-Scaffold
-   ↓
-Column
-   ├── Image
-   ├── Icon
-   └── Text
-
-That's enough for this topic.
-
-Next: 8. Container — this is where we start learning how to control a widget's size, spacing, decoration, and position._
+- [Flutter user interface guide](https://docs.flutter.dev/ui)
+- [Text API reference](https://api.flutter.dev/flutter/widgets/Text-class.html)
+- [Image API reference](https://api.flutter.dev/flutter/widgets/Image-class.html)
