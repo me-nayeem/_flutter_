@@ -1,4 +1,4 @@
-# _flutte--
+# _flutte
 Absolutely. I’ll use the GitHub roadmap as the overall curriculum, and when I explain Flutter/Android architecture topics, I’ll prioritize the official resources you listed:
 
 [Flutter documentation](https://docs.flutter.dev/?utm_source=chatgpt.com)
