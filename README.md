@@ -1,116 +1,3 @@
-<!-- # Flutter Learning Path
-
-A structured roadmap for learning Dart, Flutter, app architecture, and professional mobile development. Work through the phases in order, build the suggested projects, and use the official documentation alongside the notes in this repository.
-
-## Official Resources
-
-- [Flutter documentation](https://docs.flutter.dev/)
-- [Flutter app architecture guide](https://docs.flutter.dev/app-architecture)
-- [Android Developers](https://developer.android.com/)
-- [Android architecture guide](https://developer.android.com/topic/architecture/intro)
-
-## Roadmap
-
-### Phase 1: Dart Basics
-
-Build a solid Dart foundation before starting Flutter widgets. The lessons currently available in this repository are listed in the intended learning order.
-
-| Lesson | Topic |
-| --- | --- |
-| 01 | [Functions](Phase%201%20-%20Dart%20Basics/docs/01_functions.md) |
-| 02 | [Collections: Lists, Sets, and Maps](Phase%201%20-%20Dart%20Basics/docs/02_collections.md) |
-| 03 | [Null Safety](Phase%201%20-%20Dart%20Basics/docs/03_null_safety.md) |
-| 04 | [Classes and Objects](Phase%201%20-%20Dart%20Basics/docs/04_classes_and_objects.md) |
-| 05 | [Constructors](Phase%201%20-%20Dart%20Basics/docs/05_constructors.md) |
-| 06 | [Inheritance, Interfaces, and Mixins](Phase%201%20-%20Dart%20Basics/docs/06_inheritance_interfaces_mixins.md) |
-| 07 | [Exceptions](Phase%201%20-%20Dart%20Basics/docs/07_exceptions.md) |
-| 08 | [Generics](Phase%201%20-%20Dart%20Basics/docs/08_generics.md) |
-| 09 | [Future](Phase%201%20-%20Dart%20Basics/docs/09_future.md) |
-| 10 | [Async and Await](Phase%201%20-%20Dart%20Basics/docs/10_async_await.md) |
-
-**Practice project:** Build a console-based expense tracker or quiz application.
-
-### Phase 2: Flutter Fundamentals
-
-Learn how Flutter applications are structured and how to compose responsive interfaces.
-
-1. Flutter project structure
-2. `MaterialApp` and `Scaffold`
-3. Widgets and the widget tree
-4. Stateless and stateful widgets
-5. `BuildContext`
-6. Core UI widgets: text, images, icons, containers, padding
-7. Layout: rows, columns, stacks, expanded, and flexible
-8. Scrollable UI: `ListView` and `GridView`
-9. Buttons, gestures, text fields, and forms
-10. Reusable custom widgets
-
-**Practice projects:** Profile UI, login screen, calculator, and to-do application.
-
-### Phase 3: Building Complete Apps
-
-Learn the application features needed to move beyond individual screens.
-
-1. Navigation and routes
-2. Passing data between screens
-3. State and `setState`
-4. Form validation
-5. Assets and themes
-6. Responsive and adaptive UI
-7. Debugging
-
-**Practice project:** Notes application.
-
-### Phase 4: Data and APIs
-
-Learn how apps fetch, model, store, and display real data.
-
-1. HTTP and REST APIs
-2. JSON and serialization
-3. Model classes
-4. Loading, empty, and error states
-5. Repository concepts
-6. Local persistence
-7. Authentication
-
-**Practice project:** Weather, news, or movie application using a real API.
-
-### Phase 5: State Management
-
-Start with `setState` to understand local UI state. Then choose one state-management approach, such as Riverpod or BLoC, and learn it well before trying others.
-
-### Phase 6: Architecture
-
-Use the official Flutter and Android architecture guidance to understand why larger apps are structured in layers.
-
-1. UI, data, and domain layers
-2. View models and state holders
-3. Repositories and services
-4. Dependency injection
-5. Unidirectional data flow
-6. Separation of concerns and testability
-
-**Practice project:** Rebuild a previous app using a clear architecture.
-
-### Phase 7: Advanced Flutter
-
-After you can build complete apps, explore animations, `CustomPainter`, streams, isolates, performance, accessibility, localization, deep links, platform integration, and notifications.
-
-### Phase 8: Professional Development
-
-Finish by learning unit, widget, and integration testing; Git and GitHub; environment configuration; build flavors; CI/CD; app signing; store deployment; and crash reporting.
-
-**Final project:** Build, test, deploy, and maintain a production-style Flutter application.
-
-## Study Approach
-
-Read a lesson, write the examples yourself, complete the practice work, then apply the concept in a small project. Focus on understanding the reason behind each pattern instead of copying code without modification.
-
-Avoid spreading your attention too early across multiple state-management libraries, advanced animations, native platform code, CI/CD, or complex architecture. Build strong Dart and Flutter fundamentals first. -->
-
-
-
-
 # Flutter Learning Path
 
 > A structured, project-driven roadmap for mastering **Dart, Flutter, application architecture, state management, testing, and professional mobile development**.
@@ -915,3 +802,1030 @@ Learn:
 ```text
 JSON → Dart Object
 Dart Object → JSON
+````
+
+Understand:
+
+* Manual serialization
+* Generated serialization
+* Why serialization matters
+
+---
+
+## 5. Model Classes
+
+Learn:
+
+* Data models
+* Immutable models
+* `fromJson`
+* `toJson`
+* Nested models
+* Model validation
+
+---
+
+## 6. Loading, Empty, and Error States
+
+Every real API screen should consider:
+
+```text
+Loading
+   ↓
+Success
+   ↓
+Empty
+```
+
+and:
+
+```text
+Loading
+   ↓
+Error
+```
+
+Learn how to design each state properly.
+
+---
+
+## 7. Repository Concepts
+
+Understand:
+
+* Data sources
+* Repositories
+* Separation of API logic from UI
+* Why repositories exist
+
+---
+
+## 8. Local Persistence
+
+Learn the concepts behind:
+
+* Key-value storage
+* Local databases
+* Caching
+* Offline data
+* Persistence strategies
+
+Then explore appropriate Flutter packages.
+
+---
+
+## 9. Authentication
+
+Learn:
+
+* Login
+* Registration
+* Tokens
+* Access tokens
+* Refresh tokens
+* Secure storage concepts
+* Authentication state
+* Logout
+
+---
+
+### 🧪 Phase 4 Project
+
+Build one:
+
+* Weather App
+* News App
+* Movie App
+
+The application should consume a real API.
+
+### 🎯 Phase 4 Goal
+
+You should understand the complete flow:
+
+```text
+UI
+ ↓
+Request
+ ↓
+API
+ ↓
+JSON
+ ↓
+Model
+ ↓
+Application state
+ ↓
+UI
+```
+
+---
+
+# 🟡 Phase 5 — State Management
+
+> **State management is not about learning a package. It is about learning how application state should be owned, changed, shared, and observed.**
+
+Do **not** start by memorizing Riverpod/BLoC APIs.
+
+First understand the underlying problem.
+
+---
+
+## 1. What Is State?
+
+Understand:
+
+* UI state
+* Application state
+* Local state
+* Shared state
+* Server state
+* Persistent state
+
+---
+
+## 2. State Ownership
+
+Learn:
+
+* Who owns state?
+* Where should state live?
+* Lifting state up
+* Passing state down
+* Event callbacks
+* Avoiding unnecessary shared state
+
+---
+
+## 3. `setState`
+
+Deepen your understanding of:
+
+* Local state
+* Rebuilds
+* Widget lifecycle
+* State ownership
+* Limitations of `setState`
+
+---
+
+## 4. Shared State
+
+Understand why applications eventually need state that is shared between multiple parts of the widget tree.
+
+Learn the problems caused by:
+
+* Prop drilling
+* Duplicated state
+* Global mutable variables
+* Poor state ownership
+
+---
+
+## 5. Reactive State Management
+
+Understand the general model:
+
+```text
+State
+  ↓
+UI observes state
+  ↓
+User performs action
+  ↓
+State changes
+  ↓
+UI rebuilds
+```
+
+This mental model is more important than any particular package.
+
+---
+
+## 6. Choose One State Management Solution
+
+Primary recommendation:
+
+> **Riverpod**
+
+Alternative:
+
+> **BLoC**
+
+Learn **one properly** before exploring multiple solutions.
+
+Do not study:
+
+```text
+Riverpod
+Provider
+BLoC
+GetX
+Redux
+MobX
+...
+```
+
+all at the same time.
+
+---
+
+## 7. State Management Architecture
+
+Learn:
+
+* Providers / controllers / notifiers
+* State models
+* Events/actions
+* Async state
+* Loading states
+* Error states
+* Derived state
+* Dependency management
+
+---
+
+## 8. Async State
+
+Learn how state management handles:
+
+```text
+Loading
+Success
+Empty
+Error
+```
+
+and asynchronous operations.
+
+---
+
+## 9. Testing State
+
+Learn how state-management logic can be tested independently from the UI.
+
+---
+
+### 🧪 Phase 5 Project
+
+Take your Phase 3 or Phase 4 project and migrate its important shared state to your chosen state-management solution.
+
+### 🎯 Phase 5 Goal
+
+You should be able to explain:
+
+> **Why does this state exist, who owns it, who can change it, and who observes it?**
+
+That understanding is more important than memorizing package syntax.
+
+---
+
+# 🟢 Phase 6 — Flutter Application Architecture
+
+Now learn how to structure applications that are large enough to require clear boundaries.
+
+This phase follows the principles found in the official Flutter and Android architecture guidance.
+
+---
+
+## 1. Why Architecture Exists
+
+Understand:
+
+* Complexity
+* Coupling
+* Maintainability
+* Scalability
+* Testability
+* Separation of concerns
+
+---
+
+## 2. UI Layer
+
+Learn:
+
+* Screens
+* Widgets
+* UI state
+* User actions
+* Rendering state
+
+---
+
+## 3. View Models / State Holders
+
+Understand:
+
+* UI-facing state
+* Business interaction
+* State transformation
+* Event handling
+
+---
+
+## 4. Data Layer
+
+Learn:
+
+* Repositories
+* Data sources
+* Services
+* API clients
+* Local data sources
+
+---
+
+## 5. Domain Layer
+
+Understand:
+
+* Domain models
+* Use cases
+* Business rules
+* When a domain layer is useful
+* When it is unnecessary
+
+> Do not add a domain layer simply because a tutorial says every app must have one.
+
+---
+
+## 6. Repositories
+
+Deepen:
+
+* Repository responsibilities
+* Abstraction
+* Remote/local data sources
+* Caching
+* Data ownership
+
+---
+
+## 7. Services
+
+Understand:
+
+* API services
+* Authentication services
+* Platform services
+* External integrations
+
+---
+
+## 8. Dependency Injection
+
+Learn:
+
+* Dependency injection
+* Dependency inversion
+* Constructor injection
+* Service registration
+* Provider-based dependency injection
+
+---
+
+## 9. Unidirectional Data Flow
+
+Understand:
+
+```text
+User Action
+     ↓
+State / ViewModel
+     ↓
+Repository
+     ↓
+Data Source
+     ↓
+New State
+     ↓
+UI
+```
+
+---
+
+## 10. Separation of Concerns
+
+Learn how to avoid:
+
+```text
+UI
+ ├── API calls
+ ├── database logic
+ ├── business logic
+ ├── authentication
+ └── everything else
+```
+
+Instead, give each layer a clear responsibility.
+
+---
+
+## 11. Testability
+
+Understand why architecture should make it easier to test:
+
+* UI
+* State
+* Business logic
+* Repositories
+* Services
+
+---
+
+### 🧪 Phase 6 Project
+
+Take your Notes, Weather, News, or Movie application and rebuild it using a clear architecture.
+
+### 🎯 Phase 6 Goal
+
+You should be able to explain:
+
+```text
+Where does this code belong?
+Why does it belong there?
+Who should depend on whom?
+How can I test it?
+```
+
+---
+
+# 🟡 Phase 7 — Advanced Flutter
+
+Now that you can build and architect complete applications, move into advanced Flutter capabilities.
+
+> **Do not study advanced Flutter just because it exists. Study it when you understand the problem it solves.**
+
+---
+
+## 1. Flutter Animations
+
+Learn:
+
+* Implicit animations
+* Explicit animations
+* `AnimationController`
+* `Animation`
+* `Tween`
+* `CurvedAnimation`
+* Animation lifecycle
+
+---
+
+## 2. Advanced Animation Patterns
+
+Learn:
+
+* Hero animations
+* Staggered animations
+* Coordinated animations
+* Animated transitions
+* Custom animation components
+
+---
+
+## 3. Slivers and Advanced Scrolling
+
+Learn:
+
+* Slivers
+* `CustomScrollView`
+* `SliverAppBar`
+* `SliverList`
+* `SliverGrid`
+* Collapsing headers
+* Advanced scroll layouts
+
+---
+
+## 4. `CustomPainter`
+
+Learn:
+
+* Canvas
+* Painting
+* Paths
+* Shapes
+* Custom drawing
+* Coordinate systems
+* Repaint considerations
+
+---
+
+## 5. Streams
+
+Learn:
+
+* `Stream`
+* Stream subscriptions
+* Stream transformations
+* Broadcast streams
+* Stream lifecycle
+* Real-time data
+
+---
+
+## 6. Isolates and Concurrency
+
+Learn:
+
+* Main isolate
+* Why UI work must remain responsive
+* CPU-intensive tasks
+* Isolates
+* Message passing
+* `compute()` and related patterns
+
+---
+
+## 7. Performance Optimization
+
+Learn:
+
+* Build performance
+* Rebuilds
+* Widget identity
+* `const`
+* Lazy lists
+* Image optimization
+* Memory usage
+* Flutter DevTools
+* Performance profiling
+* Jank
+
+---
+
+## 8. Accessibility
+
+Learn:
+
+* Semantics
+* Screen readers
+* Touch target sizes
+* Contrast
+* Keyboard navigation
+* Accessible custom widgets
+
+---
+
+## 9. Localization and Internationalization
+
+Learn:
+
+* Localization concepts
+* Multiple languages
+* Locale
+* Translations
+* Date/time formatting
+* Number formatting
+* RTL considerations
+
+---
+
+## 10. Deep Links and Routing
+
+Learn:
+
+* Deep links
+* Universal/App Links concepts
+* Route handling
+* Navigation state
+* External navigation into the application
+
+---
+
+## 11. Platform Integration
+
+Learn:
+
+* Android/iOS differences
+* Platform APIs
+* Platform channels concepts
+* Native functionality
+* Plugins
+* When native code is actually necessary
+
+---
+
+## 12. Notifications
+
+Learn:
+
+* Local notifications
+* Push notification concepts
+* Notification permissions
+* Notification handling
+* Deep linking from notifications
+
+---
+
+### 🧪 Phase 7 Project
+
+Upgrade an existing application with several advanced capabilities.
+
+For example:
+
+* Advanced animations
+* Real-time data
+* Notifications
+* Deep links
+* Localization
+* Performance optimization
+
+### 🎯 Phase 7 Goal
+
+You should be able to recognize advanced Flutter problems and choose an appropriate solution instead of blindly adding complexity.
+
+---
+
+# 🔴 Phase 8 — Professional Flutter Development
+
+This phase transforms:
+
+> **"I can build Flutter apps."**
+
+into:
+
+> **"I can develop, test, release, and maintain Flutter applications professionally."**
+
+---
+
+# 🧪 1. Testing Fundamentals
+
+Understand:
+
+* Why testing matters
+* Test pyramid
+* Testable architecture
+* Arrange / Act / Assert
+
+---
+
+## 2. Unit Testing
+
+Test:
+
+* Functions
+* Classes
+* Business logic
+* Repositories
+* State-management logic
+
+---
+
+## 3. Widget Testing
+
+Test:
+
+* Widget rendering
+* User interaction
+* UI state
+* Validation
+* Widget behavior
+
+---
+
+## 4. Integration Testing
+
+Test:
+
+* Complete user flows
+* Multiple screens
+* Real application behavior
+* Critical workflows
+
+---
+
+# 🌱 5. Git and GitHub
+
+Learn:
+
+* Git fundamentals
+* Repository structure
+* Commits
+* Branches
+* Merge
+* Rebase basics
+* Pull requests
+* Code reviews
+* `.gitignore`
+* GitHub workflows
+
+---
+
+# ⚙️ 6. Environment Configuration
+
+Learn:
+
+* Development environment
+* Staging environment
+* Production environment
+* Configuration separation
+* Environment variables
+* Secrets management
+
+---
+
+# 🏗️ 7. Build Flavors
+
+Learn:
+
+* Development flavor
+* Staging flavor
+* Production flavor
+* Different API endpoints
+* Different app names/icons
+* Environment-specific configuration
+
+---
+
+# 🔐 8. App Security Fundamentals
+
+Learn:
+
+* Secret management
+* Secure storage
+* Authentication security
+* Token handling
+* HTTPS
+* Avoiding secrets in Git
+* Basic mobile security principles
+
+---
+
+# 🚀 9. Release Builds
+
+Learn:
+
+* Debug vs release builds
+* Build configuration
+* Android release builds
+* iOS release builds
+* Versioning
+* Build numbers
+
+---
+
+# 🔑 10. App Signing
+
+Learn:
+
+* Android signing
+* Keystore concepts
+* iOS signing concepts
+* Certificates
+* Provisioning profiles
+* Secure signing configuration
+
+---
+
+# 🤖 11. CI/CD
+
+Learn:
+
+* Continuous Integration
+* Continuous Delivery
+* Automated testing
+* Automated builds
+* Build pipelines
+* Deployment pipelines
+* GitHub Actions or equivalent CI tools
+
+---
+
+# 📱 12. Store Deployment
+
+### Android
+
+Learn:
+
+* Google Play Console
+* App bundle
+* Store listing
+* Release tracks
+* Production release
+
+### iOS
+
+Learn:
+
+* App Store Connect
+* iOS distribution
+* TestFlight
+* App submission
+* Production release
+
+---
+
+# 📊 13. Crash Reporting and Monitoring
+
+Learn:
+
+* Crash reporting
+* Error tracking
+* Performance monitoring
+* Release monitoring
+* User-impact analysis
+
+Explore tools such as:
+
+* Firebase Crashlytics
+* Sentry
+* Other production monitoring solutions
+
+---
+
+# 🔄 14. Maintenance and Updates
+
+Learn:
+
+* Dependency updates
+* Flutter SDK upgrades
+* Breaking changes
+* Migration strategies
+* Technical debt
+* Backward compatibility
+* Production bug fixing
+
+---
+
+### 🧪 Phase 8 Final Project
+
+Build a **production-style Flutter application**.
+
+The project should include:
+
+```text
+Flutter UI
+    ↓
+State Management
+    ↓
+Architecture
+    ↓
+API / Local Data
+    ↓
+Authentication
+    ↓
+Testing
+    ↓
+Git / GitHub
+    ↓
+CI/CD
+    ↓
+Release Build
+    ↓
+Store Deployment
+    ↓
+Crash Monitoring
+```
+
+---
+
+# 🏆 Final Capstone Project
+
+Build one serious application from beginning to production.
+
+Possible ideas:
+
+* AI-powered productivity application
+* Personal finance application
+* Learning management application
+* Health/wellness application
+* E-commerce application
+* Social application
+* Developer productivity tool
+* AI-powered SaaS mobile client
+
+The project should be large enough to demonstrate your skills but focused enough to finish.
+
+---
+
+# 🧭 Recommended Learning Order
+
+The overall progression should look like this:
+
+```text
+DART
+  │
+  ▼
+Flutter Fundamentals
+  │
+  ▼
+Complete Applications
+  │
+  ▼
+APIs + Persistence
+  │
+  ▼
+State Management
+  │
+  ▼
+Architecture
+  │
+  ▼
+Advanced Flutter
+  │
+  ▼
+Testing + Professional Development
+  │
+  ▼
+Production Application
+```
+
+---
+
+# 🧠 The Important Dependency Chain
+
+Understanding why the phases are ordered this way is important.
+
+### Phase 1 → Phase 2
+
+You need Dart before Flutter because Flutter applications are written in Dart.
+
+### Phase 2 → Phase 3
+
+You need widgets and layouts before building complete screens and navigation flows.
+
+### Phase 3 → Phase 4
+
+You should understand application structure before connecting real APIs and persistence.
+
+### Phase 4 → Phase 5
+
+Once you have real asynchronous data and multiple application states, the need for structured state management becomes much clearer.
+
+### Phase 5 → Phase 6
+
+State management introduces concepts such as state ownership, dependencies, and data flow that naturally lead into architecture.
+
+### Phase 6 → Phase 7
+
+Advanced Flutter features are easier to use correctly when you already understand application structure and responsibilities.
+
+### Phase 7 → Phase 8
+
+Professional development requires you to understand the application deeply enough to test, optimize, release, and maintain it.
+
+---
+
+# 🚫 Things NOT to Learn Too Early
+
+Do **not** allow these topics to distract you during the fundamentals:
+
+* Multiple state-management libraries
+* Redux
+* Advanced BLoC patterns
+* Complex Clean Architecture
+* Advanced `CustomPainter`
+* Complex animations
+* Native Android/iOS development
+* CI/CD
+* Micro-optimizations
+* Complex dependency injection systems
+* Premature abstractions
+
+These topics are useful.
+
+They are simply **not beginner priorities**.
+
+---
+
+# 🧑‍💻 Professional Development Mindset
+
+Throughout this roadmap, don't ask only:
+
+> "How do I make this code work?"
+
+Also ask:
+
+> "Why does this work?"
+
+> "Why is this widget responsible for this?"
+
+> "Where should this state live?"
+
+> "What happens if the API fails?"
+
+> "How can I test this?"
+
+> "How will this scale?"
+
+> "How will another developer understand this code?"
+
+> "What happens when the application grows 10×?"
+
+These questions gradually move you from **Flutter learner** to **Flutter developer**.
+
+---
+
+# 📚 Official Resources
+
+Use official documentation as the primary reference for framework behavior and architecture guidance.
+
+* [Flutter Documentation](https://docs.flutter.dev/)
+* [Flutter App Architecture](https://docs.flutter.dev/app-architecture)
+* [Android Developers](https://developer.android.com/)
+* [Android Architecture Guide](https://developer.android.com/topic/architecture/intro)
+
+---
