@@ -1,6 +1,6 @@
 # 🔵 Phase 4 — Data and APIs
 
-## 2. JSON & Serialization
+## 4. JSON & Serialization
 
 Since you already understand REST APIs, we only need the part that matters for **Flutter development**.
 
@@ -420,6 +420,3 @@ HTTP request
 
 These two flows are the foundation for the next topics.
 
-### Next: **3. Model Classes**
-
-We'll focus on how to design proper Flutter/Dart models for real API responses, including nested objects and nullable fields.
