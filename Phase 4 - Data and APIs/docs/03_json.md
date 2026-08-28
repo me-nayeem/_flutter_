@@ -1,5 +1,3 @@
-//(easy)
-
 ## 3. JSON
 
 **JSON (JavaScript Object Notation)** is a lightweight format used to **exchange data between Flutter apps and APIs**.
