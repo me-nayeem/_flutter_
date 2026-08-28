@@ -1,4 +1,4 @@
-# 8. Local Persistence
+# 9. Local Persistence
 
 Imagine your Study Tracker app.
 

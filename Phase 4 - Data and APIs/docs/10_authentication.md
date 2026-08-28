@@ -1,4 +1,4 @@
-# 9. Authentication
+# 10. Authentication
 
 ## What is Authentication?
 

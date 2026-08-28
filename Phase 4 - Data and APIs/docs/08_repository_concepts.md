@@ -1,6 +1,6 @@
 # 🔵 Phase 4 — Data and APIs
 
-## 5. Repository Concepts
+## 8. Repository Concepts
 
 > **Goal:** Understand why we use a Repository and what responsibility it has.
 
@@ -158,7 +158,3 @@ For now, remember:
 │   Backend    │
 └──────────────┘
 ```
-
-You don't need to build a complex repository architecture yet. **Understand the responsibility and separation first.**
-
-### Next: **6. Local Persistence**

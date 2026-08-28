@@ -1,6 +1,6 @@
 # 🔵 Phase 4 — Data and APIs
 
-## 3. Model Classes
+## 5. Model Classes
 
 > **Goal:** Learn how to represent API data with clean, strongly typed Dart classes instead of working directly with raw `Map<String, dynamic>` everywhere.
 
@@ -444,19 +444,3 @@ And be comfortable with:
 - Lists of nested objects
 - `Map<String, dynamic>`
 - `List<Model>`
-
-Once these are comfortable, you'll be ready for the next important API concept:
-
-## **4. Loading, Empty & Error States**
-
-That's where we'll connect API calls to the Flutter UI properly:
-
-```text
-Loading
-   ↓
-Success → Show data
-   ↓
-Empty   → Show empty state
-   ↓
-Error   → Show error state
-```

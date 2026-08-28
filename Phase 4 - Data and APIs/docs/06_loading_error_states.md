@@ -1,6 +1,6 @@
 # 🔵 Phase 4 — Data and APIs
 
-## 4. Loading, Empty & Error States
+## 6. Loading, Empty & Error States
 
 When you fetch data from an API, the UI should handle **four possible states**:
 
@@ -159,5 +159,3 @@ But as your apps become larger, managing several booleans becomes harder. Later,
 ### Key principle
 
 > **Every API-driven screen should have a deliberate loading, success, empty, and error experience.**
-
-Next topic: **Repository Concepts**.
