@@ -8,29 +8,31 @@ I’ll follow the current Flutter documentation as the primary source, while add
 
 State = data that can change over time and whose current value affects what the UI displays.
 
-For example:
+**For example:**
 
+```dart
 int counter = 0;
+```
 
-Initially:
+**Initially:**
 
 counter = 0
 
-User presses a button:
+**User presses a button:**
 
 counter = 1
 
-The UI should now show:
+**The UI should now show:**
 
 1
 
-So the basic relationship is:
+**The basic relationship is:**
 
 STATE
   ↓
 UI
 
-When state changes:
+**When state changes:**
 
 State changes
       ↓
@@ -81,7 +83,7 @@ Flutter rebuilds the widget tree as necessary.
 
 The official docs emphasize that widgets are immutable: rather than imperatively updating an existing widget, Flutter constructs the appropriate new widget configuration from the current state. 
 
-Mental model
+**Mental model**
 
 Remember this:
 
@@ -163,7 +165,7 @@ Those questions are far more important than knowing a particular package.
 
 ## 4. Two major types of state
 
-Flutter's documentation makes an important conceptual distinction:
+```Flutter's documentation makes an important conceptual distinction:
 
 Ephemeral state
 
@@ -171,12 +173,12 @@ Also called:
 
 local state
 
-UI state
+UI state```
 
 
 This is state that can usually live inside one widget. 
 
-Examples:
+**Examples:**
 
 Selected tab
 Text field visibility
@@ -184,15 +186,18 @@ Animation progress
 Checkbox state
 Current PageView page
 
-Example:
+**Example:**
 
+```dart
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
+```
 
+```dart
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
 
@@ -218,6 +223,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+```
 
 This is perfectly good state management.
 
@@ -242,7 +248,7 @@ Flutter's documentation specifically recommends setState as the low-level approa
 
 App state is state that is shared across different parts of your application or needs to survive beyond a single widget. 
 
-Examples:
+**Examples:**
 
 Authentication
 Shopping cart
@@ -293,7 +299,7 @@ Parent
  ├── Counter
  └── Display
 
-Why?
+**Why?**
 
 Because the lowest common ancestor that needs the state can own it.
 
@@ -341,10 +347,13 @@ This separation becomes extremely important when we reach architecture.
 
 You already know setState, but understand what it actually does.
 
-Example:
+**Example:**
 
+```dart
 int counter = 0;
+```
 
+```dart
 ElevatedButton(
   onPressed: () {
     setState(() {
@@ -353,6 +362,7 @@ ElevatedButton(
   },
   child: const Text('Add'),
 )
+```
 
 The important part is:
 
@@ -366,7 +376,7 @@ You're telling Flutter:
 
 
 
-Conceptually:
+**Conceptually:**
 
 counter++
    ↓
@@ -378,7 +388,7 @@ build()
    ↓
 UI reflects counter
 
-Important
+**Important**
 
 setState() does not mean:
 
@@ -430,8 +440,9 @@ Consider shared/app state.
 
 Before reaching state-management packages, you should understand this very well.
 
-Example:
+**Example:**
 
+```dart
 class ProfilePage extends StatelessWidget {
   final String username;
 
@@ -445,12 +456,15 @@ class ProfilePage extends StatelessWidget {
     return Text(username);
   }
 }
+```
 
-Parent:
+**Parent:**
 
+```dart
 ProfilePage(
   username: 'Nayeem',
 )
+```
 
 This is not state management by itself.
 
@@ -473,6 +487,7 @@ What if the child needs to tell the parent something?
 
 Use a callback.
 
+```dart
 class CounterButton extends StatelessWidget {
   final VoidCallback onPressed;
 
@@ -489,9 +504,11 @@ class CounterButton extends StatelessWidget {
     );
   }
 }
+```
 
-Parent:
+**Parent:**
 
+```dart
 CounterButton(
   onPressed: () {
     setState(() {
@@ -499,8 +516,9 @@ CounterButton(
     });
   },
 )
+```
 
-So:
+**So:**
 
 Parent → Child
    data
@@ -577,7 +595,7 @@ But you should understand what problem it solves.
 
 Flutter provides mechanisms that allow an ancestor to make data/services available to descendants. The official docs describe InheritedWidget, InheritedNotifier, and InheritedModel as low-level mechanisms for this purpose. 
 
-Conceptually:
+**Conceptually:**
 
 Provider
             │
@@ -600,6 +618,7 @@ This idea is fundamental to many state-management solutions.
 
 Another important concept.
 
+```dart
 class CounterModel extends ChangeNotifier {
   int count = 0;
 
@@ -608,8 +627,9 @@ class CounterModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+```
 
-The key line:
+**The key line:**
 
 notifyListeners();
 
@@ -621,7 +641,7 @@ means:
 
 Flutter's official example uses ChangeNotifier to encapsulate application state and calls notifyListeners() whenever a change might affect the UI. 
 
-Conceptually:
+**Conceptually:**
 
 CounterModel
      │
@@ -646,8 +666,9 @@ Consumer
 
 
 
-Example:
+**Example:**
 
+```dart
 class CounterModel extends ChangeNotifier {
   int count = 0;
 
@@ -656,21 +677,26 @@ class CounterModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+```
 
-Provide it:
+**Provide it:**
 
+```dart
 ChangeNotifierProvider(
   create: (_) => CounterModel(),
   child: const MyApp(),
 )
+```
 
-Read it:
+**Read it:**
 
+```dart
 Consumer<CounterModel>(
   builder: (context, counter, child) {
     return Text('${counter.count}');
   },
 )
+```
 
 The architecture is basically:
 
@@ -770,7 +796,7 @@ User/System Event
       ↓
 New State
 
-Example:
+**Example:**
 
 Unauthenticated
       +
@@ -974,15 +1000,21 @@ UI
 
 For example:
 
+```dart
 if (state.isLoading) {
+```
   return const CircularProgressIndicator();
 }
 
+```dart
 if (state.error != null) {
+```
   return Text(state.error!);
 }
 
+```dart
 return UserList(users: state.users);
+```
 
 The UI doesn't need to know how the users were fetched.
 
@@ -999,7 +1031,7 @@ That separation becomes extremely valuable as applications grow.
 
 This is a concept I strongly recommend you understand before learning Riverpod/BLoC.
 
-Think:
+**Think:**
 
 ┌──────────┐
         │   STATE  │
@@ -1016,7 +1048,7 @@ Think:
              │
              └──────────→ STATE
 
-Example:
+**Example:**
 
 CartState
    ↓
@@ -1146,7 +1178,7 @@ You must understand:
 
 ### Level 2 — Flutter's mechanisms
 
-Then:
+**Then:**
 
 11. InheritedWidget
 12. InheritedNotifier
@@ -1161,7 +1193,7 @@ You don't need to become an InheritedWidget expert. You need to understand why t
 
 ### Level 3 — Real application state
 
-Then:
+**Then:**
 
 19. Loading state
 20. Success state
@@ -1175,7 +1207,7 @@ Then:
 
 ### Level 4 — Architecture connection
 
-Then:
+**Then:**
 
 28. Separation of concerns
 29. ViewModel
@@ -1314,9 +1346,11 @@ Imagine a login screen.
 
 A beginner might write:
 
+```dart
 class LoginPage extends StatefulWidget {
   // ...
 }
+```
 
 and inside it:
 
@@ -1336,7 +1370,7 @@ navigation
 
 That's a problem.
 
-Why?
+**Why?**
 
 Because your UI now knows too much.
 
@@ -1371,7 +1405,7 @@ Its job is primarily:
 
 
 
-Conceptually:
+**Conceptually:**
 
 View
  ├── display email field
@@ -1398,7 +1432,7 @@ Now we introduce the ViewModel.
 
 The ViewModel sits between the UI and the application's data/business logic.
 
-Think:
+**Think:**
 
 View
                 │
@@ -1412,6 +1446,7 @@ The ViewModel owns or exposes the state that the View needs.
 
 For example:
 
+```dart
 class LoginViewModel {
   bool isLoading = false;
   String? error;
@@ -1420,6 +1455,7 @@ class LoginViewModel {
     // login logic
   }
 }
+```
 
 The UI can conceptually say:
 
@@ -1427,7 +1463,7 @@ The UI can conceptually say:
         ↓
 viewModel.login()
 
-Then:
+**Then:**
 
 ViewModel
    ↓
@@ -1505,6 +1541,7 @@ The Repository provides data to the rest of your application while hiding the de
 
 For example:
 
+```dart
 class UserRepository {
   final AuthService authService;
 
@@ -1517,6 +1554,7 @@ class UserRepository {
     return authService.login(email, password);
   }
 }
+```
 
 The ViewModel doesn't need to know whether the data came from:
 
@@ -1571,6 +1609,7 @@ StorageService
 
 An AuthService might communicate with an authentication backend:
 
+```dart
 class AuthService {
   Future<User> login(
     String email,
@@ -1579,6 +1618,7 @@ class AuthService {
     // HTTP request
   }
 }
+```
 
 The service knows the technical details.
 
@@ -1607,7 +1647,7 @@ Service
 
 
 
-Example:
+**Example:**
 
 AuthService
     ↓
@@ -1619,7 +1659,7 @@ Repository
 
 
 
-Example:
+**Example:**
 
 UserRepository
      ↓
@@ -1627,7 +1667,7 @@ UserRepository
  ↓        ↓
 API     Cache
 
-So:
+**So:**
 
 ViewModel
     ↓
@@ -1693,14 +1733,16 @@ This is where our previous lesson connects directly.
 
 Suppose:
 
+```dart
 class LoginViewModel {
   bool isLoading = false;
   String? error;
 }
+```
 
 The ViewModel can own the UI-facing state.
 
-So:
+**So:**
 
 LoginViewModel
       │
@@ -1761,7 +1803,7 @@ View rebuilds
        ↓
 Loading indicator
 
-Then:
+**Then:**
 
 API response
        ↓
@@ -1785,15 +1827,19 @@ Now another important concept.
 
 Suppose:
 
+```dart
 class UserRepository {
   final AuthService authService;
 
   UserRepository(this.authService);
 }
+```
 
-Notice:
+**Notice:**
 
+```dart
 UserRepository(this.authService);
+```
 
 The repository doesn't create AuthService.
 
@@ -1801,21 +1847,25 @@ Someone gives it one.
 
 That's dependency injection.
 
-Without DI
+**Without DI**
 
+```dart
 class UserRepository {
   final AuthService authService = AuthService();
 }
+```
 
 The repository creates its own dependency.
 
-With DI
+**With DI**
 
+```dart
 class UserRepository {
   final AuthService authService;
 
   UserRepository(this.authService);
 }
+```
 
 Someone outside provides it.
 
@@ -2079,7 +2129,7 @@ Your answer should be roughly:
 
 
 
-Then:
+**Then:**
 
 > What is a ViewModel?
 
@@ -2089,7 +2139,7 @@ Then:
 
 
 
-Then:
+**Then:**
 
 > What is a Repository?
 
@@ -2099,7 +2149,7 @@ Then:
 
 
 
-Then:
+**Then:**
 
 > What is a Service?
 
@@ -2109,7 +2159,7 @@ Then:
 
 
 
-Then:
+**Then:**
 
 > What is dependency injection?
 
@@ -2323,11 +2373,13 @@ Current Theme
 
 Instead of widgets manually creating everything:
 
+```dart
 final cart = Cart();
+```
 
 you can have the application provide the Cart.
 
-Conceptually:
+**Conceptually:**
 
 Provider
    ↓
@@ -2358,9 +2410,11 @@ The Repository needs a Service.
 
 Without dependency injection, you might write:
 
+```dart
 class UserRepository {
   final AuthService service = AuthService();
 }
+```
 
 Now UserRepository is responsible for creating its dependency.
 
@@ -2376,7 +2430,7 @@ Something else provides those objects.
 
 Riverpod can act as that dependency-management mechanism.
 
-So:
+**So:**
 
 Riverpod
    ├── creates dependencies
@@ -2397,7 +2451,7 @@ ref
 
 Think of ref as your way of interacting with Riverpod's provider system.
 
-Conceptually:
+**Conceptually:**
 
 Your code
    ↓
@@ -2424,15 +2478,17 @@ This means roughly:
 
 This is one of the most important Riverpod concepts.
 
+```dart
 final cart = ref.watch(cartProvider);
+```
 
-Think:
+**Think:**
 
 > Watch this provider. If its value changes, this consumer should react.
 
 
 
-Conceptually:
+**Conceptually:**
 
 cartProvider
      ↓
@@ -2440,7 +2496,7 @@ cartProvider
      ↓
    Widget
 
-Then:
+**Then:**
 
 Cart changes
      ↓
@@ -2465,7 +2521,9 @@ ref.watch(cartProvider)
 
 with:
 
+```dart
 ref.read(cartProvider)
+```
 
 read means:
 
@@ -2473,7 +2531,7 @@ read means:
 
 
 
-So:
+**So:**
 
 watch
 → read + react to changes
@@ -2493,13 +2551,17 @@ read
 
 For example:
 
+```dart
 final cart = ref.watch(cartProvider);
+```
 
 for displaying state.
 
 And:
 
+```dart
 ref.read(cartProvider.notifier).addProduct(product);
+```
 
 for triggering an action.
 
@@ -2534,9 +2596,11 @@ you're performing an action.
 
 You don't necessarily need to subscribe to the provider just to perform that action.
 
-So:
+**So:**
 
+```dart
 ref.read(...)
+```
 
 is generally appropriate for the event handler.
 
@@ -2572,9 +2636,11 @@ The exact APIs vary somewhat with the Riverpod version, so when we start coding,
 
 Suppose you have:
 
+```dart
 class ApiService {
   // ...
 }
+```
 
 You can conceptually expose it:
 
@@ -2626,7 +2692,7 @@ State
 +
 Methods that change state
 
-So:
+**So:**
 
 CounterNotifier
 
@@ -2663,7 +2729,7 @@ state changes
  ↓
 UI updates
 
-So:
+**So:**
 
 UI
          │
@@ -2705,7 +2771,7 @@ might be:
 
 Loading
 
-then:
+**then:**
 
 Success
  └── users
@@ -2717,7 +2783,7 @@ Error
 
 AsyncNotifier is designed for this type of asynchronous state.
 
-Conceptually:
+**Conceptually:**
 
 AsyncNotifier
      ↓
@@ -3027,7 +3093,7 @@ Navigate to login
 
 These are side effects, not simply UI rendering.
 
-Conceptually:
+**Conceptually:**
 
 State changes
      ↓
