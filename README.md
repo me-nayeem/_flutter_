@@ -38,6 +38,14 @@ Follow the phases in order. For each topic, study the concept, build the example
 - [Complete State Management (Riverpod)](Phase%205%20-%20State%20Management/00_All_In_One.md) · [What Is State?](Phase%205%20-%20State%20Management/docs/01_what_is_state.md) · [State Ownership](Phase%205%20-%20State%20Management/docs/02_state_ownership.md) · [`setState`](Phase%205%20-%20State%20Management/docs/03_set_state.md) · [Shared State](Phase%205%20-%20State%20Management/docs/04_shared_state.md)
 - [Reactive State Management](Phase%205%20-%20State%20Management/docs/05_reactive_state_management.md) · [Choose a Solution](Phase%205%20-%20State%20Management/docs/06_choose_a_solution.md) · [State Management Architecture](Phase%205%20-%20State%20Management/docs/07_state_management_architecture.md) · [Async State](Phase%205%20-%20State%20Management/docs/08_async_state.md) · [Testing State](Phase%205%20-%20State%20Management/docs/09_testing_state.md)
 
+#### Images
+
+![Image 1 — Simple Mental Model](Phase%205%20-%20State%20Management/simple_mental_model.jpeg)
+
+![Image 2 — State Flow](Phase%205%20-%20State%20Management/flow.jpeg)
+
+![Image 3 — Riverpod](Phase%205%20-%20State%20Management/riverPod.jpeg)
+
 ### Phase 6 — Flutter Application Architecture
 
 - [Why Architecture Exists](Phase%206%20-%20Flutter%20Application%20Architecture/docs/01_why_architecture_exists.md) · [UI Layer](Phase%206%20-%20Flutter%20Application%20Architecture/docs/02_ui_layer.md) · [View Models and State Holders](Phase%206%20-%20Flutter%20Application%20Architecture/docs/03_view_models_state_holders.md) · [Data Layer](Phase%206%20-%20Flutter%20Application%20Architecture/docs/04_data_layer.md)
