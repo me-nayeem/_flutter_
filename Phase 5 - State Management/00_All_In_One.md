@@ -2,7 +2,8 @@
 
 ## check it out here: [Link](https://chatgpt.com/share/6a966bd7-a968-83ee-a375-769a7bcbf839?ogimg=plain)
 
-# Note After completing this above part... then please read this below part... 
+
+# **📝 Note:** Complete the section above first, then continue with the section below.
 
 
 
