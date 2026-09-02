@@ -55,7 +55,7 @@ Follow the phases in order. For each topic, study the concept, build the example
 - [Phase Overview](Phase%207%20-%20Advanced%20Flutter/README.md) · [Flutter Animations](Phase%207%20-%20Advanced%20Flutter/docs/01_flutter_animations.md) · [Advanced Animation Patterns](Phase%207%20-%20Advanced%20Flutter/docs/02_advanced_animation_patterns.md) · [Slivers and Advanced Scrolling](Phase%207%20-%20Advanced%20Flutter/docs/03_slivers_and_advanced_scrolling.md)
 - [`CustomPainter`](Phase%207%20-%20Advanced%20Flutter/docs/04_custom_painter.md) · [Streams](Phase%207%20-%20Advanced%20Flutter/docs/05_streams.md) · [Isolates and Concurrency](Phase%207%20-%20Advanced%20Flutter/docs/06_isolates_and_concurrency.md) · [Performance Optimization](Phase%207%20-%20Advanced%20Flutter/docs/07_performance_optimization.md)
 - [Accessibility](Phase%207%20-%20Advanced%20Flutter/docs/08_accessibility.md) · [Localization and Internationalization](Phase%207%20-%20Advanced%20Flutter/docs/09_localization_and_internationalization.md) · [Deep Links and Routing](Phase%207%20-%20Advanced%20Flutter/docs/10_deep_links_and_routing.md) · [Platform Integration](Phase%207%20-%20Advanced%20Flutter/docs/11_platform_integration.md) · [Notifications](Phase%207%20-%20Advanced%20Flutter/docs/12_notifications.md)
-- Project: [Advanced App Upgrade](Phase%207%20-%20Advanced%20Flutter/projects/advanced_app_upgrade/README.md)
+
 
 ### Phase 8 — Professional Flutter Development
 
@@ -63,7 +63,7 @@ Follow the phases in order. For each topic, study the concept, build the example
 - [Integration Testing](Phase%208%20-%20Professional%20Flutter%20Development/docs/04_integration_testing.md) · [Git and GitHub](Phase%208%20-%20Professional%20Flutter%20Development/docs/05_git_and_github.md) · [Environment Configuration](Phase%208%20-%20Professional%20Flutter%20Development/docs/06_environment_configuration.md) · [Build Flavors](Phase%208%20-%20Professional%20Flutter%20Development/docs/07_build_flavors.md)
 - [App Security Fundamentals](Phase%208%20-%20Professional%20Flutter%20Development/docs/08_app_security_fundamentals.md) · [Release Builds](Phase%208%20-%20Professional%20Flutter%20Development/docs/09_release_builds.md) · [App Signing](Phase%208%20-%20Professional%20Flutter%20Development/docs/10_app_signing.md) · [CI/CD](Phase%208%20-%20Professional%20Flutter%20Development/docs/11_ci_cd.md)
 - [Store Deployment](Phase%208%20-%20Professional%20Flutter%20Development/docs/12_store_deployment.md) · [Crash Reporting and Monitoring](Phase%208%20-%20Professional%20Flutter%20Development/docs/13_crash_reporting_and_monitoring.md) · [Maintenance and Updates](Phase%208%20-%20Professional%20Flutter%20Development/docs/14_maintenance_and_updates.md)
-- Project: [Production Flutter App](Phase%208%20-%20Professional%20Flutter%20Development/projects/production_flutter_app/README.md)
+
 
 ## Phase Summaries
 
