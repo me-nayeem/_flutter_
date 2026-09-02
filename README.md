@@ -40,11 +40,9 @@ Follow the phases in order. For each topic, study the concept, build the example
 
 #### Images
 
-![Image 1 — Simple Mental Model](Phase%205%20-%20State%20Management/simple_mental_model.jpeg)
-
-![Image 2 — State Flow](Phase%205%20-%20State%20Management/flow.jpeg)
-
-![Image 3 — Riverpod](Phase%205%20-%20State%20Management/riverPod.jpeg)
+- [Image 1 — Simple Mental Model](Phase%205%20-%20State%20Management/simple_mental_model.jpeg)
+- [Image 2 — State Flow](Phase%205%20-%20State%20Management/flow.jpeg)
+- [Image 3 — Riverpod](Phase%205%20-%20State%20Management/riverPod.jpeg)
 
 ### Phase 6 — Flutter Application Architecture
 
