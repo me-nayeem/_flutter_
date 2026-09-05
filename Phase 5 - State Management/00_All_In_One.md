@@ -7,16 +7,10 @@
 For example:
 
 ```
-```
-
-```
 int counter = 0;
 ```
 
 Initially:
-
-```
-```
 
 ```
 counter = 0
@@ -25,25 +19,16 @@ counter = 0
 User presses a button:
 
 ```
-```
-
-```
 counter = 1
 ```
 
 The UI should now show:
 
 ```
-```
-
-```
 1
 ```
 
 So the basic relationship is:
-
-```
-```
 
 ```
 STATE
@@ -54,9 +39,6 @@ UI
 When state changes:
 
 ```
-```
-
-```
 State changes
       ↓
 Flutter rebuilds relevant UI
@@ -64,7 +46,7 @@ Flutter rebuilds relevant UI
 UI displays new state
 ```
 
-Flutter defines state, in the useful architectural sense, as the data you need to rebuild your UI at any moment. 
+Flutter defines state, in the useful architectural sense, as the data you need to rebuild your UI at any moment.
 
 ---
 
@@ -83,25 +65,16 @@ Flutter encourages a different way of thinking:
 For example:
 
 ```
-```
-
-```
 Text('$counter')
 ```
 
 You don't tell `Text`:
 
 ```
-```
-
-```
 "Change yourself from 0 to 1."
 ```
 
 Instead:
-
-```
-```
 
 ```
 counter = 0
@@ -115,14 +88,11 @@ UI describes "1"
 
 Flutter rebuilds the widget tree as necessary.
 
-The official docs emphasize that widgets are immutable: rather than imperatively updating an existing widget, Flutter constructs the appropriate new widget configuration from the current state. 
+The official docs emphasize that widgets are immutable: rather than imperatively updating an existing widget, Flutter constructs the appropriate new widget configuration from the current state.
 
 ### Mental model
 
 Remember this:
-
-```
-```
 
 ```
 STATE
@@ -153,9 +123,6 @@ No.
 For example, your application might have:
 
 ```
-```
-
-```
 User
  ├── name
  ├── email
@@ -180,12 +147,12 @@ All of these can be state.
 
 The real questions are:
 
-1. **What is the state?** 
-2. **Who owns it?** 
-3. **Who needs to read it?** 
-4. **Who can change it?** 
-5. **How does the UI know it changed?** 
-6. **How long should it live?** 
+1. **What is the state?**
+2. **Who owns it?**
+3. **Who needs to read it?**
+4. **Who can change it?**
+5. **How does the UI know it changed?**
+6. **How long should it live?**
 
 Those questions are far more important than knowing a particular package.
 
@@ -199,15 +166,12 @@ Flutter's documentation makes an important conceptual distinction:
 
 Also called:
 
--  local state 
--  UI state 
+- local state
+- UI state
 
-This is state that can usually live inside one widget. 
+This is state that can usually live inside one widget.
 
 Examples:
-
-```
-```
 
 ```
 Selected tab
@@ -218,9 +182,6 @@ Current PageView page
 ```
 
 Example:
-
-```
-```
 
 ```
 class HomePage extends StatefulWidget {
@@ -268,26 +229,20 @@ You don't need Provider.
 Just:
 
 ```
-```
-
-```
 StatefulWidget
       +
 setState()
 ```
 
-Flutter's documentation specifically recommends `setState` as the low-level approach for widget-specific ephemeral state. 
+Flutter's documentation specifically recommends `setState` as the low-level approach for widget-specific ephemeral state.
 
 ---
 
 # 5. App state
 
-App state is state that is shared across different parts of your application or needs to survive beyond a single widget. 
+App state is state that is shared across different parts of your application or needs to survive beyond a single widget.
 
 Examples:
-
-```
-```
 
 ```
 Authentication
@@ -299,9 +254,6 @@ Read/unread articles
 ```
 
 Imagine:
-
-```
-```
 
 ```
              App
@@ -328,9 +280,6 @@ This is one of the most valuable concepts you'll learn.
 Suppose:
 
 ```
-```
-
-```
 Parent
  ├── Counter
  └── Display
@@ -339,18 +288,12 @@ Parent
 Both widgets need:
 
 ```
-```
-
-```
 int count;
 ```
 
 Where should `count` live?
 
 Usually:
-
-```
-```
 
 ```
 Parent
@@ -363,16 +306,13 @@ Why?
 
 Because the **lowest common ancestor** that needs the state can own it.
 
-Flutter calls this concept **lifting state up**. The official documentation recommends keeping state above the widgets that use it. 
+Flutter calls this concept **lifting state up**. The official documentation recommends keeping state above the widgets that use it.
 
 ---
 
 # 7. State ownership
 
 Think of state like this:
-
-```
-```
 
 ```
 Who owns it?
@@ -383,9 +323,6 @@ Who observes it?
 ```
 
 For example:
-
-```
-```
 
 ```
 CartState
@@ -400,9 +337,6 @@ CartState
 The cart shouldn't belong to one of those UI widgets.
 
 Instead:
-
-```
-```
 
 ```
 Cart State
@@ -423,9 +357,6 @@ You already know `setState`, but understand **what it actually does**.
 Example:
 
 ```
-```
-
-```
 int counter = 0;
 
 ElevatedButton(
@@ -441,9 +372,6 @@ ElevatedButton(
 The important part is:
 
 ```
-```
-
-```
 setState(() {
   counter++;
 });
@@ -454,9 +382,6 @@ You're telling Flutter:
 > "The state used by this widget has changed. Rebuild this widget's relevant subtree."
 
 Conceptually:
-
-```
-```
 
 ```
 counter++
@@ -487,9 +412,6 @@ It means:
 A common beginner mistake:
 
 ```
-```
-
-```
 setState(() {
   user = newUser;
 });
@@ -506,18 +428,12 @@ Ask:
 If yes:
 
 ```
-```
-
-```
 setState()
 ```
 
 is often enough.
 
 If multiple unrelated widgets need it:
-
-```
-```
 
 ```
 Consider shared/app state.
@@ -530,9 +446,6 @@ Consider shared/app state.
 Before reaching state-management packages, you should understand this very well.
 
 Example:
-
-```
-```
 
 ```
 class ProfilePage extends StatelessWidget {
@@ -553,9 +466,6 @@ class ProfilePage extends StatelessWidget {
 Parent:
 
 ```
-```
-
-```
 ProfilePage(
   username: 'Nayeem',
 )
@@ -564,9 +474,6 @@ ProfilePage(
 This is **not state management** by itself.
 
 It's simply:
-
-```
-```
 
 ```
 Parent
@@ -585,9 +492,6 @@ This is often the cleanest solution for small/local data.
 What if the child needs to tell the parent something?
 
 Use a callback.
-
-```
-```
 
 ```
 class CounterButton extends StatelessWidget {
@@ -611,9 +515,6 @@ class CounterButton extends StatelessWidget {
 Parent:
 
 ```
-```
-
-```
 CounterButton(
   onPressed: () {
     setState(() {
@@ -624,9 +525,6 @@ CounterButton(
 ```
 
 So:
-
-```
-```
 
 ```
 Parent → Child
@@ -645,9 +543,6 @@ This is fundamental Flutter.
 Imagine:
 
 ```
-```
-
-```
 App
  ↓
 Home
@@ -662,16 +557,10 @@ ProductCard
 You need:
 
 ```
-```
-
-```
 Cart
 ```
 
 and you're passing:
-
-```
-```
 
 ```
 cart
@@ -686,9 +575,6 @@ through several layers.
 Eventually:
 
 ```
-```
-
-```
 App
  ↓
 Home
@@ -701,9 +587,6 @@ ProductCard
 ```
 
 becomes:
-
-```
-```
 
 ```
 cart
@@ -726,12 +609,9 @@ You don't necessarily need to build your application directly with `InheritedWid
 
 But you **should understand what problem it solves**.
 
-Flutter provides mechanisms that allow an ancestor to make data/services available to descendants. The official docs describe `InheritedWidget`, `InheritedNotifier`, and `InheritedModel` as low-level mechanisms for this purpose. 
+Flutter provides mechanisms that allow an ancestor to make data/services available to descendants. The official docs describe `InheritedWidget`, `InheritedNotifier`, and `InheritedModel` as low-level mechanisms for this purpose.
 
 Conceptually:
-
-```
-```
 
 ```
          Provider
@@ -742,9 +622,6 @@ Conceptually:
 ```
 
 Instead of:
-
-```
-```
 
 ```
 Parent → Child → Child → Child → data
@@ -761,9 +638,6 @@ This idea is fundamental to many state-management solutions.
 Another important concept.
 
 ```
-```
-
-```
 class CounterModel extends ChangeNotifier {
   int count = 0;
 
@@ -777,9 +651,6 @@ class CounterModel extends ChangeNotifier {
 The key line:
 
 ```
-```
-
-```
 notifyListeners();
 ```
 
@@ -787,12 +658,9 @@ means:
 
 > "Something changed. Notify everyone listening to me."
 
-Flutter's official example uses `ChangeNotifier` to encapsulate application state and calls `notifyListeners()` whenever a change might affect the UI. 
+Flutter's official example uses `ChangeNotifier` to encapsulate application state and calls `notifyListeners()` whenever a change might affect the UI.
 
 Conceptually:
-
-```
-```
 
 ```
 CounterModel
@@ -813,18 +681,12 @@ Flutter's documentation uses `provider` as a simple example of app-state managem
 Three important concepts are:
 
 ```
-```
-
-```
 ChangeNotifier
 ChangeNotifierProvider
 Consumer
 ```
 
 Example:
-
-```
-```
 
 ```
 class CounterModel extends ChangeNotifier {
@@ -840,9 +702,6 @@ class CounterModel extends ChangeNotifier {
 Provide it:
 
 ```
-```
-
-```
 ChangeNotifierProvider(
   create: (_) => CounterModel(),
   child: const MyApp(),
@@ -850,9 +709,6 @@ ChangeNotifierProvider(
 ```
 
 Read it:
-
-```
-```
 
 ```
 Consumer<CounterModel>(
@@ -863,9 +719,6 @@ Consumer<CounterModel>(
 ```
 
 The architecture is basically:
-
-```
-```
 
 ```
 CounterModel
@@ -879,7 +732,7 @@ Consumer
 UI
 ```
 
-The current Flutter docs still use Provider as an educational/simple approach, while also noting that community packages are appropriate depending on application complexity and team preferences. 
+The current Flutter docs still use Provider as an educational/simple approach, while also noting that community packages are appropriate depending on application complexity and team preferences.
 
 ---
 
@@ -888,9 +741,6 @@ The current Flutter docs still use Provider as an educational/simple approach, w
 Forget package names for a moment.
 
 Most state-management systems are solving some version of:
-
-```
-```
 
 ```
         STATE
@@ -906,9 +756,6 @@ Most state-management systems are solving some version of:
 ```
 
 And user interaction flows backward:
-
-```
-```
 
 ```
 UI
@@ -935,9 +782,6 @@ In real applications, state often has **multiple dimensions**.
 For example, fetching users:
 
 ```
-```
-
-```
 Loading
 Success
 Error
@@ -946,25 +790,16 @@ Error
 You shouldn't think only:
 
 ```
-```
-
-```
 List<User> users;
 ```
 
 You should think:
 
 ```
-```
-
-```
 What is the current state of this operation?
 ```
 
 For example:
-
-```
-```
 
 ```
 Loading
@@ -987,9 +822,6 @@ This becomes extremely important when you start using APIs.
 A professional way to think about state is:
 
 ```
-```
-
-```
 Current State
       +
 User/System Event
@@ -998,9 +830,6 @@ New State
 ```
 
 Example:
-
-```
-```
 
 ```
 Unauthenticated
@@ -1017,9 +846,6 @@ Authenticated
 Or:
 
 ```
-```
-
-```
 Loading
    ↓
 API response
@@ -1028,9 +854,6 @@ Success
 ```
 
 or:
-
-```
-```
 
 ```
 Loading
@@ -1053,9 +876,6 @@ Another fundamental principle:
 Bad:
 
 ```
-```
-
-```
 HomePage:
   cartCount = 3
 
@@ -1069,9 +889,6 @@ AppBar:
 Now:
 
 ```
-```
-
-```
 HomePage changes → ?
 CartPage changes → ?
 AppBar changes → ?
@@ -1080,9 +897,6 @@ AppBar changes → ?
 You can easily get inconsistent UI.
 
 Better:
-
-```
-```
 
 ```
        CartState
@@ -1103,9 +917,6 @@ This is equally important.
 Bad architecture:
 
 ```
-```
-
-```
 GlobalState
  ├── selectedTextField
  ├── animationProgress
@@ -1122,9 +933,6 @@ You end up with unnecessary complexity.
 Instead:
 
 ```
-```
-
-```
 Local UI state
      ↓
 setState()
@@ -1134,7 +942,7 @@ Shared application state
 State-management solution
 ```
 
-Flutter itself says there isn't a universal rule separating ephemeral and app state; the appropriate split depends on the application and can change as the application grows. 
+Flutter itself says there isn't a universal rule separating ephemeral and app state; the appropriate split depends on the application and can change as the application grows.
 
 ---
 
@@ -1145,9 +953,6 @@ Ask:
 > **How long should this state exist?**
 
 Possible answers:
-
-```
-```
 
 ```
 Until widget disappears
@@ -1168,9 +973,6 @@ persistent state
 ```
 
 For example:
-
-```
-```
 
 ```
 Selected tab
@@ -1196,9 +998,6 @@ Imagine a login feature.
 ### UI
 
 ```
-```
-
-```
 Email field
 Password field
 Login button
@@ -1207,9 +1006,6 @@ Error message
 ```
 
 ### State
-
-```
-```
 
 ```
 email
@@ -1222,9 +1018,6 @@ isAuthenticated
 ### Business logic
 
 ```
-```
-
-```
 validate credentials
 call authentication service
 handle success
@@ -1232,9 +1025,6 @@ handle failure
 ```
 
 ### Data layer
-
-```
-```
 
 ```
 API
@@ -1245,15 +1035,12 @@ authentication service
 A mature Flutter application shouldn't dump all of this into:
 
 ```
-```
-
-```
 build()
 ```
 
 or one giant `StatefulWidget`.
 
-This is where architecture starts becoming important. Flutter's architecture guidance specifically connects architecture, MVVM, state management, dependency injection, and design patterns for scalable applications. 
+This is where architecture starts becoming important. Flutter's architecture guidance specifically connects architecture, MVVM, state management, dependency injection, and design patterns for scalable applications.
 
 ---
 
@@ -1262,18 +1049,12 @@ This is where architecture starts becoming important. Flutter's architecture gui
 A strong architecture tries to make this relationship clear:
 
 ```
-```
-
-```
 State
  ↓
 UI
 ```
 
 For example:
-
-```
-```
 
 ```
 if (state.isLoading) {
@@ -1292,9 +1073,6 @@ The UI doesn't need to know **how** the users were fetched.
 It only needs to know:
 
 ```
-```
-
-```
 What state am I currently in?
 ```
 
@@ -1307,9 +1085,6 @@ That separation becomes extremely valuable as applications grow.
 This is a concept I strongly recommend you understand before learning Riverpod/BLoC.
 
 Think:
-
-```
-```
 
 ```
         ┌──────────┐
@@ -1329,9 +1104,6 @@ Think:
 ```
 
 Example:
-
-```
-```
 
 ```
 CartState
@@ -1364,9 +1136,6 @@ You should eventually ask:
 Suppose:
 
 ```
-```
-
-```
 App
  ├── Header
  ├── ProductList
@@ -1377,7 +1146,7 @@ If only the cart count changes, you don't want the entire application unnecessar
 
 Good state management allows you to control **where state is observed**.
 
-This is why Flutter's Provider documentation recommends placing `Consumer` as deep in the widget tree as practical, avoiding rebuilding large portions of the UI unnecessarily. 
+This is why Flutter's Provider documentation recommends placing `Consumer` as deep in the widget tree as practical, avoiding rebuilding large portions of the UI unnecessarily.
 
 ---
 
@@ -1392,9 +1161,6 @@ Flutter is designed around rebuilding widget descriptions.
 So don't prematurely optimize every rebuild.
 
 First make the state architecture:
-
-```
-```
 
 ```
 correct
@@ -1415,9 +1181,6 @@ They are **tools for solving state-management problems**.
 You shouldn't learn:
 
 ```
-```
-
-```
 Riverpod
 BLoC
 Provider
@@ -1430,9 +1193,6 @@ MobX
 all at once.
 
 Your roadmap already has the right progression:
-
-```
-```
 
 ```
 setState
@@ -1461,9 +1221,6 @@ For your Flutter roadmap, I would structure **State Management** like this:
 You must understand:
 
 ```
-```
-
-```
 1. What is state?
 2. Declarative UI
 3. State vs UI
@@ -1481,9 +1238,6 @@ You must understand:
 Then:
 
 ```
-```
-
-```
 11. InheritedWidget
 12. InheritedNotifier
 13. ValueNotifier
@@ -1494,14 +1248,11 @@ Then:
 18. Rebuild boundaries
 ```
 
-You don't need to become an `InheritedWidget` expert. You need to understand **why these mechanisms exist**. Flutter describes them as lower-level mechanisms underlying many higher-level approaches. 
+You don't need to become an `InheritedWidget` expert. You need to understand **why these mechanisms exist**. Flutter describes them as lower-level mechanisms underlying many higher-level approaches.
 
 ### Level 3 — Real application state
 
 Then:
-
-```
-```
 
 ```
 19. Loading state
@@ -1520,9 +1271,6 @@ Then:
 Then:
 
 ```
-```
-
-```
 28. Separation of concerns
 29. ViewModel
 30. Repository
@@ -1532,14 +1280,11 @@ Then:
 34. Testability
 ```
 
-This connects directly to the Flutter architecture material. 
+This connects directly to the Flutter architecture material.
 
 ### Level 5 — One modern package
 
 Finally:
-
-```
-```
 
 ```
 setState
@@ -1558,9 +1303,6 @@ Riverpod OR BLoC
 # The mental model I want you to remember
 
 If you remember only this, you're already building the right foundation:
-
-```
-```
 
 ```
                 ┌─────────────┐
@@ -1592,9 +1334,6 @@ If you remember only this, you're already building the right foundation:
 And when deciding **how** to manage a piece of state:
 
 ```
-```
-
-```
 Does only one widget need it?
         │
        YES
@@ -1618,13 +1357,13 @@ state-management approach
 
 That is the foundation I want you to have **before touching Riverpod or BLoC**.
 
-One final distinction: **Flutter's official documentation doesn't mandate a single state-management package.** It explicitly says the appropriate approach depends on the app's complexity, team experience, and the problem being solved.  For *your* learning path, we'll therefore focus first on the concepts above, then choose one modern solution and learn it properly rather than collecting libraries.
+One final distinction: **Flutter's official documentation doesn't mandate a single state-management package.** It explicitly says the appropriate approach depends on the app's complexity, team experience, and the problem being solved. For _your_ learning path, we'll therefore focus first on the concepts above, then choose one modern solution and learn it properly rather than collecting libraries.
 
 [Flutter — State management](https://docs.flutter.dev/data-and-backend/state-mgmt?utm_source=chatgpt.com)
 
 [Flutter — App architecture](https://docs.flutter.dev/app-architecture?utm_source=chatgpt.com)
 
-[image](https://www.google.com/s2/favicons?domain=https://docs.flutter.dev\&sz=32)
+[image](https://www.google.com/s2/favicons?domain=https://docs.flutter.dev&sz=32)
 
 Sources
 
@@ -1643,9 +1382,6 @@ The key question is:
 Consider a search screen:
 
 ```
-```
-
-```
 SearchPage
    ↓
 User searches "Flutter"
@@ -1658,9 +1394,6 @@ User leaves the page
 What should happen to the search state?
 
 Should:
-
-```
-```
 
 ```
 "Flutter"
@@ -1683,9 +1416,6 @@ It depends on **state ownership and lifecycle**.
 A provider can roughly go through:
 
 ```
-```
-
-```
 Created
    ↓
 Alive
@@ -1696,9 +1426,6 @@ Disposed
 ```
 
 Think of it like an object with a lifetime.
-
-```
-```
 
 ```
 ┌─────────────────────────────┐
@@ -1722,16 +1449,10 @@ When disposed, its state is destroyed.
 Imagine your app has:
 
 ```
-```
-
-```
 SearchProvider
 ```
 
 and the user performs:
-
-```
-```
 
 ```
 100 searches
@@ -1742,9 +1463,6 @@ If every temporary search-related state remained alive forever, your application
 For temporary state, disposal is useful.
 
 But for something like:
-
-```
-```
 
 ```
 Authentication
@@ -1761,9 +1479,6 @@ So lifecycle should match **the purpose of the state**.
 Riverpod provides mechanisms for automatically disposing provider state when it is no longer needed.
 
 Conceptually:
-
-```
-```
 
 ```
 autoDispose
@@ -1796,18 +1511,12 @@ Ask:
 Probably:
 
 ```
-```
-
-```
 Search feature
 ```
 
 ### Authentication
 
 Probably:
-
-```
-```
 
 ```
 Application/session
@@ -1818,18 +1527,12 @@ Application/session
 Probably:
 
 ```
-```
-
-```
 One widget
 ```
 
 ### Shopping cart
 
 Probably:
-
-```
-```
 
 ```
 Shopping feature / application
@@ -1844,16 +1547,10 @@ Different ownership naturally leads to different lifetimes.
 For example:
 
 ```
-```
-
-```
 bool obscurePassword = true;
 ```
 
 If only one login form needs this:
-
-```
-```
 
 ```
 LoginPage
@@ -1861,9 +1558,6 @@ LoginPage
 ```
 
 You don't need:
-
-```
-```
 
 ```
 PasswordVisibilityProvider
@@ -1884,16 +1578,10 @@ This is an important professional habit:
 Suppose:
 
 ```
-```
-
-```
 User authentication
 ```
 
 is needed by:
-
-```
-```
 
 ```
 HomePage
@@ -1905,9 +1593,6 @@ CheckoutPage
 Now local state isn't appropriate.
 
 You need shared state:
-
-```
-```
 
 ```
              AuthState
@@ -1924,9 +1609,6 @@ Riverpod becomes useful.
 # 8. State lifetime example
 
 ### Case A — Login form
-
-```
-```
 
 ```
 Open LoginPage
@@ -1947,9 +1629,6 @@ It can belong to the screen/form.
 ### Case B — Authentication
 
 ```
-```
-
-```
 Login
  ↓
 Authenticated
@@ -1964,9 +1643,6 @@ Settings
 Authentication state should remain available across those screens.
 
 So:
-
-```
-```
 
 ```
 AuthState
@@ -1991,16 +1667,10 @@ Rather, it gives Riverpod permission to clean up provider state when it is no lo
 This is why you should think:
 
 ```
-```
-
-```
 Does this state need to survive?
 ```
 
 rather than:
-
-```
-```
 
 ```
 Should I always use autoDispose?
@@ -2015,25 +1685,16 @@ This leads to an important real-world decision.
 Suppose the user opens:
 
 ```
-```
-
-```
 ProductsPage
 ```
 
 and you fetch:
 
 ```
-```
-
-```
 100 products
 ```
 
 They go to:
-
-```
-```
 
 ```
 ProductDetails
@@ -2046,9 +1707,6 @@ Would you prefer:
 ### Option A
 
 Fetch products again.
-
-```
-```
 
 ```
 Products
@@ -2065,9 +1723,6 @@ or:
 ### Option B
 
 Keep the existing result.
-
-```
-```
 
 ```
 Products
@@ -2096,9 +1751,6 @@ or:
 For API-driven applications, you should think about:
 
 ```
-```
-
-```
 Freshness
 Caching
 Memory
@@ -2109,9 +1761,6 @@ Network cost
 For example:
 
 ```
-```
-
-```
 Weather data
 ```
 
@@ -2120,18 +1769,12 @@ might reasonably be refreshed periodically.
 While:
 
 ```
-```
-
-```
 Static app configuration
 ```
 
 might live much longer.
 
 And:
-
-```
-```
 
 ```
 Search suggestions
@@ -2148,9 +1791,6 @@ State lifecycle is therefore partly a **product/feature decision**, not just a R
 As you go deeper into Riverpod, you'll also encounter the idea of keeping provider state alive.
 
 Conceptually:
-
-```
-```
 
 ```
 autoDispose
@@ -2181,18 +1821,12 @@ This distinction is extremely important.
 A widget can rebuild:
 
 ```
-```
-
-```
 Widget build()
      ↓
 again
 ```
 
 without necessarily meaning:
-
-```
-```
 
 ```
 Provider destroyed
@@ -2203,17 +1837,11 @@ Provider recreated
 These are different lifecycles.
 
 ```
-```
-
-```
 Flutter
 Widget lifecycle
 ```
 
 and:
-
-```
-```
 
 ```
 Riverpod
@@ -2233,9 +1861,6 @@ That's not necessarily true.
 # 14. Why this matters for expensive work
 
 Suppose:
-
-```
-```
 
 ```
 build() async {
@@ -2258,18 +1883,12 @@ This is one reason understanding lifecycle is more valuable than blindly memoriz
 Remember:
 
 ```
-```
-
-```
 ref.watch(userProvider)
 ```
 
 creates a dependency on the provider.
 
 So the UI is saying:
-
-```
-```
 
 ```
 "This part of my UI depends on this provider."
@@ -2292,9 +1911,6 @@ When designing an application, classify state roughly like this:
 ### Level 1 — Widget-local
 
 ```
-```
-
-```
 Password visibility
 Selected checkbox
 Animation
@@ -2302,9 +1918,6 @@ Text field state
 ```
 
 Usually:
-
-```
-```
 
 ```
 setState
@@ -2315,18 +1928,12 @@ setState
 ### Level 2 — Feature-local
 
 ```
-```
-
-```
 Search results
 Filter selections
 Todo screen state
 ```
 
 Could use:
-
-```
-```
 
 ```
 Riverpod
@@ -2337,9 +1944,6 @@ with an appropriate lifecycle.
 ---
 
 ### Level 3 — Application-wide
-
-```
-```
 
 ```
 Authentication
@@ -2355,9 +1959,6 @@ Usually needs longer-lived shared state.
 # 17. A practical example
 
 Imagine an e-commerce app.
-
-```
-```
 
 ```
                     APP
@@ -2418,9 +2019,6 @@ That's the mindset I want you to develop.
 Remember this:
 
 ```
-```
-
-```
               STATE
                 │
                 ↓
@@ -2472,9 +2070,6 @@ which influences:
 Imagine a search feature:
 
 ```
-```
-
-```
 User opens SearchPage
        ↓
 SearchProvider created
@@ -2497,7 +2092,6 @@ If **yes**, keeping/caching the state may make more sense.
 There isn't a magic Riverpod rule—the **feature requirement comes first**.
 
 ---
-
 
 ## 5.7 — Derived State & Provider Dependencies
 
@@ -3193,12 +2787,12 @@ Now ask:
 
 Examples:
 
-| State | Appropriate owner |
-|---|---|
-| Password visibility | Widget |
-| Search query | Search feature |
-| Notes | Notes feature |
-| Authentication | Application/session |
+| State               | Appropriate owner   |
+| ------------------- | ------------------- |
+| Password visibility | Widget              |
+| Search query        | Search feature      |
+| Notes               | Notes feature       |
+| Authentication      | Application/session |
 
 This prevents the dreaded:
 
@@ -3758,17 +3352,17 @@ Riverpod is the tool.
 
 You have now covered:
 
-| Topic | Status |
-|---|:---:|
-| 5.1 Provider fundamentals | ✅ |
-| 5.2 Notifier & state changes | ✅ |
-| 5.3 AsyncNotifier & async state | ✅ |
-| 5.4 Immutable state & state modeling | ✅ |
-| 5.5 `watch` / `read` / `listen` | ✅ |
-| 5.6 Provider lifecycle & `autoDispose` | ✅ |
-| 5.7 Derived state & dependencies | ✅ |
-| 5.8 Dependency injection | ✅ |
-| 5.9 Real-feature architecture | ✅ |
-| 5.10 Best practices | ✅ |
+| Topic                                  | Status |
+| -------------------------------------- | :----: |
+| 5.1 Provider fundamentals              |   ✅   |
+| 5.2 Notifier & state changes           |   ✅   |
+| 5.3 AsyncNotifier & async state        |   ✅   |
+| 5.4 Immutable state & state modeling   |   ✅   |
+| 5.5 `watch` / `read` / `listen`        |   ✅   |
+| 5.6 Provider lifecycle & `autoDispose` |   ✅   |
+| 5.7 Derived state & dependencies       |   ✅   |
+| 5.8 Dependency injection               |   ✅   |
+| 5.9 Real-feature architecture          |   ✅   |
+| 5.10 Best practices                    |   ✅   |
 
 > You don't need to memorize every Riverpod API yet. The important thing is understanding the **underlying concepts**. When you build real projects, these concepts will become easier to remember because you'll understand why each one exists.
